@@ -33,7 +33,17 @@ class Die:
 
 
     def getPic(self, value):
-        print() #get image of die at value
+        return f"Die_{value[0]}_{value[1]}"
+        if value[1] == Color.GREEN:
+            if value[0] == 1:
+                return "green1"
+            if value[0] == 2:
+                return "green2"
+            if value[0] == 3:
+                return "green3"
+            if value[0] == 4:
+                return "green4"
+            
 
     def getRandomPic(self):
         print() # return random pic for animation, ggfs anders lösen
