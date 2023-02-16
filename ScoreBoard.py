@@ -9,6 +9,11 @@ import Task
 class ScoreBoard:
     players : list
     tasks : list
+    round : int = -1
+
+    def getNextTask(self) -> Task:
+        self.round = self.round +1
+        return self.tasks[self.round]
 
 
 def getLatestKribblePoints(self, player) -> int: #liefer die punktzahl vom letzten kribbeln des übergebenen sppilers
