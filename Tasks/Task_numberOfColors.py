@@ -4,23 +4,22 @@ import Dice
 import Difficulty
 
 
-class Task_1CX(Task): # 1 mal eine Farbe
-
+class Task_min2CX(Task): # 3 Farben
+    
 
 
     def __init__(self):
-        self.difficulty = Difficulty.EASY
-        self.colors = Color.getColors(1)
+        self.difficulty = Difficulty.MEDIUM
 
 
     def isCompleted(self, dice : Dice) -> bool:
-        if (dice.getNumberOfColorInstances(self.colors[0]) == 1):
+        if (dice.getNumberofColors == 3):
             return True
         else:
             return False
         
     def getInfo(self) -> str:
-        return f"Get the Color {self.colors[0]} 1 time."
+        return "Get 3 Colors only."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()
