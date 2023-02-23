@@ -1,4 +1,4 @@
-import Color
+import color
 
 
 
@@ -9,10 +9,10 @@ def getDieBackgroundColor(color):
 def getDieNumberOverlay(value):
     None
 
-def getTaskColor(color : Color):
+def getTaskColor(color : color):
     None
 
-def getTaskNotAllowedColor(color : Color):
+def getTaskNotAllowedColor(color : color):
     None
 
 def getTaskNumber(number : int):
@@ -33,3 +33,6 @@ def getEndPoints():
 def getPoints(number):
     None
 
+def getNameLabel():
+    None
+    

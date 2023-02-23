@@ -1,16 +1,15 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
-class Task_ColorXYZ_equal(Task):
-    equal : bool
+class Task_ColorXY_equal(Task):
 
     def __init__(self, equalOrUnequal : bool):
-        self.difficulty = Difficulty.HARD
-        self.equal = equalOrUnequal
-        self.colors = Color.getColors(2)
+        super().__init__(2)
+        self.equal : bool = equalOrUnequal
+        self.difficulty : Difficulty = Difficulty.HARD
 
 
     def isCompleted(self, dice : Dice) -> bool:

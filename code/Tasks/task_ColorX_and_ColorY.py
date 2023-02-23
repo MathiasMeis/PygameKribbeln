@@ -1,19 +1,23 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
-class Task_nCX_mCY(Task): # 2 mal eine Farbe, 2 mal eine andere Farbe
+class Task_ColorX_and_ColorY(Task):
     requiredNumberOfFirstInstance : int
     requiredNumberOfSecondInstance : int
 
     def __init__(self, numberOfFirstInstance, numberOfSecondInstance):
-        self.difficulty = Difficulty.EASY
+        super().__init__(2)
         self.requiredNumberOfFirstInstance = numberOfFirstInstance
         self.requiredNumberOfSecondInstance = numberOfSecondInstance
+        if (numberOfFirstInstance < 2 and numberOfSecondInstance < 2):
+            self.difficulty = Difficulty.EASY
+        else:
+            self.difficulty = Difficulty.MEDIUM
 
-        self.colors = Color.getColors(2)
+       
 
 
     def isCompleted(self, dice : Dice) -> bool:
@@ -23,7 +27,7 @@ class Task_nCX_mCY(Task): # 2 mal eine Farbe, 2 mal eine andere Farbe
             return False
         
     def getInfo(self) -> str:
-        return f"Get the color {self.colors[0]} 2 time and the color {self.colors[1]} 2 times."
+        return f"Get the color {self.colors[0]} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)} and the color {self.colors[1]} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)}."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

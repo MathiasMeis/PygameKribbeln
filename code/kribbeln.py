@@ -1,8 +1,7 @@
-import Player
-import Dice
-import Task
-import ScoreBoard
-import StartingScreen
+from player import Player
+from dice import Dice
+from task import Task
+from scoreBoard import ScoreBoard
 
 #hier passiert die ganze magie, aber nichts mit ui. Die Spielefunktionen
 class Kribbeln:
@@ -36,5 +35,5 @@ class Kribbeln:
     def nextRound(self):
         self.currentRound = self.currentRound +1
         self.currentTask = self.scoreboard.getNextTask()
-        #sort players?
+        #sort players? wenn ja, dann muss currentindex auf currentPlayer geändert werden und bei der punktevergabe immer der index neu ermittelt werden muss. 
     

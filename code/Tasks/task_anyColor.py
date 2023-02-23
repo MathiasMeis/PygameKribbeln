@@ -1,7 +1,7 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
 class Task_anyColor(Task): #  mal beliebige Farbe
@@ -9,9 +9,16 @@ class Task_anyColor(Task): #  mal beliebige Farbe
     numberOfInstances : int
 
     def __init__(self ,numberOfInstances : int, allowed : bool):
+        super().__init__(0)
         self.allowedToComplete = allowed
         self.numberOfInstances = numberOfInstances
-        self.difficulty = Difficulty.EASY #change
+        if (numberOfInstances < 3 and allowed):
+            self.difficulty = Difficulty.EASY
+        elif (numberOfInstances < 4):
+            self.difficulty = Difficulty.MEDIUM
+        else:
+            self.difficulty = Difficulty.HARD
+            
 
     def isCompleted(self, dice : Dice) -> bool:
         isTrue : bool = False

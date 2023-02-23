@@ -1,18 +1,16 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
 class Task_anyColor_anyAnotherColor(Task):
-    numberOfFirstInstance :int
-    numberOfSecondInstance :int
 
-
-    def __init__(self, first, second):
-        self.numberOfFirstInstance = first
-        self.numberOfSecondInstance = second
-        self.difficulty = Difficulty.EASY
+    def __init__(self, first : int, second : int):
+        super().__init__(0)
+        self.numberOfFirstInstance : int = first
+        self.numberOfSecondInstance : int = second
+        self.difficulty : Difficulty = Difficulty.MEDIUM
 
     def isCompleted(self, dice : Dice) -> bool:
         firstIsTrue : bool = False

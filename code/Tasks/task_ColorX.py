@@ -1,17 +1,21 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
 class Task_ColorX(Task): # n mal eine Farbe
     requiredNumberOfInstandes : int
 
 
-    def __init__(self, number, difficuly):
+    def __init__(self, number):
+        super().__init__(1)
         self.requiredNumberOfInstandes = number
-        self.difficulty = difficuly
-        self.colors = Color.getColors(1)
+        if(number < 3):
+            self.difficulty = Difficulty.EASY
+        else:
+            self.difficulty = Difficulty.MEDIUM
+
 
 
     def isCompleted(self, dice : Dice) -> bool:

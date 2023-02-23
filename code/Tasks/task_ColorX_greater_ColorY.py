@@ -1,17 +1,14 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
 class Task_ColorX_greater_ColorY(Task):
 
-    def __init__(self, numberOfFirstInstance, numberOfSecondInstance):
+    def __init__(self):
+        super().__init__(2)
         self.difficulty = Difficulty.HARD
-        self.requiredNumberOfFirstInstance = numberOfFirstInstance
-        self.requiredNumberOfSecondInstance = numberOfSecondInstance
-
-        self.colors = Color.getColors(2)
 
 
     def isCompleted(self, dice : Dice) -> bool:

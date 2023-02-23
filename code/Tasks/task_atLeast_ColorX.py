@@ -1,17 +1,21 @@
-import Color
-import Task
-import Dice
-import Difficulty
+from color import Color
+from dice import Dice
+from difficulty import Difficulty
+from task import Task
 
 
-class Task_min_nCX(Task): # mindestens n mal eine Farbe
+class Task_atLeast_ColorX(Task): # mindestens n mal eine Farbe
     requiredNumberOfInstances : int
 
 
     def __init__(self, number):
+        super().__init__(1)
         self.requiredNumberOfInstances = number
-        self.difficulty = Difficulty.EASY
-        self.colors = Color.getColors(1)
+        if(number < 3):
+            self.difficulty = Difficulty.EASY
+        else:
+            self.difficulty = Difficulty.MEDIUM
+
 
 
     def isCompleted(self, dice : Dice) -> bool:
