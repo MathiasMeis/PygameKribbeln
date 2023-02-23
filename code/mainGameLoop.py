@@ -2,12 +2,12 @@ import pygame
 from pygame.locals import *
 import os
 import os.path
-import MainScreen
+import mainScreen
 import random
-import Die
-import Color
 
 class Game:
+
+    numbers = [1,1,1,1,1,1]
 
     def __init__(self):
         self._running = True
@@ -27,16 +27,13 @@ class Game:
             self._running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse = pygame.mouse.get_pos()
-            if MainScreen.inThrowButton(mouse[0],mouse[1]):
-                number = random.randint(1,4)
-                self.display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number}.png")),(50,50))
+            if mainScreen.inThrowButton(mouse[0],mouse[1]):
+                self.numbers = [random.randint(1,4),random.randint(1,4),random.randint(1,4),random.randint(1,4),random.randint(1,4),random.randint(1,4)]           
+            if mainScreen.inTurnButton(mouse[0],mouse[1]):
+                self.numbers = [1,1,1,1,1,1]
 
     def on_loop(self):
-        mouse = pygame.mouse.get_pos()
-        if MainScreen.inThrowButton(mouse[0],mouse[1]):
-            pygame.draw.rect(self.display, (120,30,70), MainScreen.throwButton)
-        else: 
-            pygame.draw.rect(self.display, (120,120,120), MainScreen.throwButton)
+        mainScreen.on_loop(self.display,self.numbers)
     def on_render(self):
         pygame.display.flip()
     def on_cleanup(self):
