@@ -24,7 +24,7 @@ class Task_anyColor(Task): #  mal beliebige Farbe
         isTrue : bool = False
         allColors : list = Color.getAllColors()
         for i in range(6):
-            if (dice.getNumberOfColorInstances(allColors[i]) == 3):
+            if (dice.getNumberOfColorInstances(allColors[i]) == self.numberOfInstances):
                 isTrue = True
         return isTrue
         

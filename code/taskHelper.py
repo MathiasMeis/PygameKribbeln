@@ -86,3 +86,35 @@ class TaskHelper:
 
     def getTestTask() -> Task:
         return Task_ColorX(2)
+    
+
+    def getEveryTask(): #only for testing
+        allTasks : list[Task] = []
+        allTasks.append(Task_ColorX(0))
+        allTasks.append(Task_ColorX(1))
+        allTasks.append(Task_ColorX(2))
+        allTasks.append(Task_ColorX_and_ColorY(0,0))
+        allTasks.append(Task_ColorX_and_ColorY(1,0))
+        allTasks.append(Task_ColorX_and_ColorY(1,1))
+        allTasks.append(Task_atLeast_ColorX(2))
+        allTasks.append(Task_anyColor(2, True))
+        allTasks.append(Task_ColorX(3))
+        allTasks.append(Task_ColorX_and_ColorY(2,0))
+        allTasks.append(Task_ColorX_and_ColorY(2,1))
+        allTasks.append(Task_atLeast_ColorX(3))
+        allTasks.append(Task_anyColor(3, True))
+        allTasks.append(Task_anyColor(3, False))
+        allTasks.append(Task_anyColor(2, False))
+        allTasks.append(Task_numberOfColors(2))
+        allTasks.append(Task_numberOfColors(3))
+        allTasks.append(Task_anyColor_anyAnotherColor(2,2))
+        allTasks.append(Task_anyColor_anyAnotherColor(3,2))
+        allTasks.append(Task_anyColor(4, True))
+        allTasks.append(Task_anyColor(5, True))
+        allTasks.append(Task_ColorXY_equal(True))
+        allTasks.append(Task_ColorXY_equal(False))
+        allTasks.append(Task_ColorXYZ_equal(True))
+        allTasks.append(Task_ColorXYZ_equal(False))
+        allTasks.append(Task_ColorX_greater_ColorY())
+        allTasks.append(Task_ColorX_greater_allOtherColors())
+        return allTasks

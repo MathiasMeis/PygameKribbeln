@@ -22,7 +22,7 @@ class Task_ColorX_greater_allOtherColors(Task):
         return True
 
     def getInfo(self) -> str:
-        return f"Get the color {self.colors[0]} more often than all the other colors."
+        return f"Get the color {self.colors[0].value} more often than all the other colors."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

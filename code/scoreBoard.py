@@ -11,7 +11,7 @@ from dice import Dice
 # punkte können hier oder beim spieler selbst hinterlegt werden. letzteres könnte sinniger sein, wenn man die spielerreihenfolge variabel nach punkten macht
 # bzw ab 2tem kribbeln nach punkten schauen
 class ScoreBoard:
-    tasks : list[Task] = TaskHelper.getDefaultTasks()
+    tasks : list[Task] = TaskHelper.getEveryTask()
     playerindex : int = -1
     points : list[list[int]]
 

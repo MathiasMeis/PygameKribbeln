@@ -22,9 +22,9 @@ class Task_ColorXYZ_equal(Task):
         
     def getInfo(self) -> str:
         if (self.equal):
-            return f"Get the colors {self.colors[0]}, {self.colors[1]} and {self.colors[2]} equally often."
+            return f"Get the colors {self.colors[0].value}, {self.colors[1].value} and {self.colors[2].value} equally often."
         else:
-            return f"Don't get the colors {self.colors[0]}, {self.colors[1]} and {self.colors[2]} equally often."
+            return f"Don't get the colors {self.colors[0].value}, {self.colors[1].value} and {self.colors[2].value} equally often."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

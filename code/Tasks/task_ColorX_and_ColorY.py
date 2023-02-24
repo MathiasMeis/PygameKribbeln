@@ -21,13 +21,23 @@ class Task_ColorX_and_ColorY(Task):
 
 
     def isCompleted(self, dice : Dice) -> bool:
-        if (dice.getNumberOfColorInstances(self.colors[0]) == self.requiredNumberOfFirstInstance, dice.getNumberOfColorInstances(self.colors[1]) == self.requiredNumberOfSecondInstance):
+        if (dice.getNumberOfColorInstances(self.colors[0]) == self.requiredNumberOfFirstInstance and dice.getNumberOfColorInstances(self.colors[1]) == self.requiredNumberOfSecondInstance):
             return True
         else:
             return False
         
     def getInfo(self) -> str:
-        return f"Get the color {self.colors[0]} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)} and the color {self.colors[1]} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)}."
+        return f"Get the color {self.colors[0].value} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)} and the color {self.colors[1].value} {Task.formatNumberOfInstances(self.requiredNumberOfSecondInstance)}."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()
+
+#from imageHelper import ImageHelper
+    def getIconPaths(self) -> list[str]:
+        paths : list[str] = []
+        #paths.append(ImageHelper.getImage("tasks", "error"))
+        return paths
+        
+
+    def getIconDeviations(self) -> list[int]:
+        return [0]

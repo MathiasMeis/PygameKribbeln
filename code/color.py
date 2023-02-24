@@ -23,8 +23,7 @@ class Color(Enum):
     
 
     def getPicture(self): # maybe split in getTaskPicture() and getDieColor()
-        print("kk")
-        path : str = f"graphics/colors/{self.value}.png"
+        return f"graphics\dice\dieColor{self.name}.png"
         # über path bild bekommmen, name ist teil des path zB: d/users/xx/python/pics/Color_BLACK.png
 
     def getAllColors() -> list:

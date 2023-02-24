@@ -17,7 +17,7 @@ class Task_anyColor_anyAnotherColor(Task):
         secondIsTrue : bool = False
         allColors : list = Color.getAllColors()
         for i in range(6):
-            if (dice.getNumberOfColorInstances(allColors[i]) == self.numberOfFirstInstance):
+            if (dice.getNumberOfColorInstances(allColors[i]) == self.numberOfFirstInstance and not firstIsTrue):
                 firstIsTrue = True
             elif (dice.getNumberOfColorInstances(allColors[i]) == self.numberOfSecondInstance):
                 secondIsTrue = True

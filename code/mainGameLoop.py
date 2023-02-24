@@ -33,6 +33,7 @@ class Game:
                 game.Game.playingDice.reroll()           
             if mainScreen.inTurnButton(mouse[0],mouse[1]):
                 self.numbers = [1,1,1,1,1,1]
+                game.Game.currentRound += 1
         if event.type ==  pygame.KEYDOWN:
             if (DiceRerollHandler.isArrowKey(event.key)):
                 DiceRerollHandler.handleKeyInput(event.key)

@@ -19,13 +19,13 @@ class Task_atLeast_ColorX(Task): # mindestens n mal eine Farbe
 
 
     def isCompleted(self, dice : Dice) -> bool:
-        if (dice.getNumberOfColorInstances(self.colors[0]) <= self.requiredNumberOfInstances):
+        if (self.requiredNumberOfInstances <= dice.getNumberOfColorInstances(self.colors[0])):
             return True
         else:
             return False
         
     def getInfo(self) -> str:
-        return f"Get the Color {self.colors[0]} at least {Task.formatNumberOfInstances(self.requiredNumberOfInstances)}."
+        return f"Get the Color {self.colors[0].value} at least {Task.formatNumberOfInstances(self.requiredNumberOfInstances)}."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

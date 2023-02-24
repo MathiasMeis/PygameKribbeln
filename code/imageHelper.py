@@ -5,28 +5,64 @@ import os
 
 class ImageHelper:
     def getDieBackgroundColor(color : Color) -> pygame.Surface:
-        ImageHelper.getImage("dice", f"dieColor{color.name}")
+        return ImageHelper.getImage("dice", f"dieColor{color.name}")
 
     def getDieNumberOverlay(value) -> pygame.Surface:
-        ImageHelper.getImage("dice", f"dieValue{value}")
+        return ImageHelper.getImage("dice", f"dieValue{value}")
 
     def getTaskColor(color : Color):
-        ImageHelper.getImage("tasks.colors", color.value)
+        return ImageHelper.getImage("tasks",f"Color{color.name}")
 
     def getTaskNotAllowedColor(color : Color):
-        None
-
+        if (color == Color.BLACK):
+            return ImageHelper.getImage("tasks", "NotOverlayBLACK")
+        else:
+            return ImageHelper.getImage("tasks", "NotOverlay")
+        
     def getTaskNumber(number : int):
-        None
+        return ImageHelper.getImage("tasks", f"Number{number}")
+    
+    def getCompletionIndicator(isCompleted : bool):
+        #if(isCompleted):
+        return ImageHelper.getImage("labels", f"taskCompletedIndicator{isCompleted}")
 
     def getTaskOperator(operator : str): #  * < > = != &
-        None
+        if (operator == "&"):
+            return ImageHelper.getImage("tasks", "OperatorAnd")
+        elif (operator == "="):
+            return ImageHelper.getImage("tasks", "OperatorEqual")
+        elif (operator == "!="):
+            return ImageHelper.getImage("tasks", "OperatorNotEqual")
+        elif (operator == ">"):
+            return ImageHelper.getImage("tasks", "OperatorGreater")
+        elif (operator == "*"):
+            return ImageHelper.getImage("tasks", "OperatorTimes")
+        else:
+            return ImageHelper.getImage("tasks", "error")
+        
+    def getAnyColor(color : str): #  * < > = != &
+        if (color == "any"):
+            return ImageHelper.getImage("tasks", "ColorsAny")
+        elif (color == "1"):
+            return ImageHelper.getImage("tasks", "Colors1")
+        elif (color == "2"):
+            return ImageHelper.getImage("tasks", "Colors2")
+        elif (color == "3"):
+            return ImageHelper.getImage("tasks", "Colors3")
+        else:
+            return ImageHelper.getImage("tasks", "error")
 
     def getTaskKribbel():
         None
 
-    def getTaskNotAllowedOverlay():
-        None
+    def getTaskBigNotAllowedOverlay():
+        return ImageHelper.getImage("tasks", "notLong")
+    
+    def getTaskMinPrefix():
+        return ImageHelper.getImage("tasks", "min")
+    
+    def getUserIcon():
+        return ImageHelper.getImage("tasks", "IconUser")
 
     def getEndPoints():
         None
@@ -37,5 +73,5 @@ class ImageHelper:
     def getNameLabel():
         None
 
-    def getImage(folder : str, fileName : str) -> pygame.Surface:
-        pygame.image.load(os.path.join(f"graphics\{folder}\{fileName}.png"))
+    def getImage(folder : str, fileName : str) -> str:
+        return f"graphics\{folder}\{fileName}.png"

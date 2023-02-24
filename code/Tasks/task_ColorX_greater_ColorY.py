@@ -18,7 +18,7 @@ class Task_ColorX_greater_ColorY(Task):
             return False
         
     def getInfo(self) -> str:
-        return f"Get the color {self.colors[0]} more often than the color {self.colors[1]}."
+        return f"Get the color {self.colors[0].value} more often than the color {self.colors[1].value}."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

@@ -1,5 +1,6 @@
 from difficulty import Difficulty
 from color import Color
+from imageHelper import ImageHelper
 
 # Oberklasse für alle Tasks, namensgebung für unterklassen noch fragwürdig
 # unterklassen sollten alle 4 mothoden überschreiben, letztere kann erstmal warten
@@ -19,8 +20,14 @@ class Task:
         pass
 
     def formatNumberOfInstances(number : int) -> str:
-        formattedString : str = f"{number} "
         if (number == 1):
-            formattedString += ("time")
+            return f"{number} time"
         else: 
-            formattedString += ("times")
+            return f"{number} times"
+        
+    def getIconPaths() -> list[str]:
+        return [ImageHelper.getImage("tasks", "error")]
+
+
+    def getIconDeviations() -> list[int]:
+        return [0]
