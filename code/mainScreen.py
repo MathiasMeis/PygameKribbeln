@@ -1,5 +1,7 @@
 import pygame
 import os
+from game import Game
+from diceRerollHandler import DiceRerollHandler
 #Hier wird der ui stuff für das Würfel
 throwButtonPos = [300, 500, 200, 100]
 throwLabelPos = [340,500]
@@ -19,6 +21,16 @@ def inTurnButton(x,y):
     if turnButtonPos[0] <= x <= turnButtonPos[0]+turnButtonPos[2] and turnButtonPos[1] <= y <= turnButtonPos[1]+turnButtonPos[3]: return True
     else: return False
 
+def mightBeDieStateChange(x,y) -> bool:
+    if():
+        return True
+    else:
+        return False
+    
+
+
+
+
 
 def drawThrowButton(display,mouse):
     if inThrowButton(mouse[0],mouse[1]):
@@ -37,12 +49,27 @@ def drawNewTurnButton(display,mouse):
     #Hier später einfach Bild von Button Neuer Zug rein
 
 def drawDices(display,number):
-    display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number[0]}.png")),(150,100))
-    display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number[1]}.png")),(300,100))
-    display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number[2]}.png")),(450,100))
-    display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number[3]}.png")),(600,100))
-    display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number[4]}.png")),(750,100))
-    display.blit(pygame.image.load(os.path.join("assets", f"Die_green_{number[5]}.png")),(900,100))
+    baseXCoordinate : int = 500
+    baseYCoordinate : int = 400
+    deviation : int = 250
+
+    for i in range(6):
+        xCoordinate = baseXCoordinate + i*deviation
+        yCoordinate = baseYCoordinate
+        if(Game.playingDice.toReroll[i] == False):
+            yCoordinate += 300
+        display.blit(pygame.image.load(os.path.join(Game.playingDice.allDice[i].getColorPath())),(xCoordinate, yCoordinate))
+        display.blit(pygame.image.load(os.path.join(Game.playingDice.allDice[i].getValuePath())),(xCoordinate, yCoordinate))
+
+    
+    xCo : int = baseXCoordinate + deviation*DiceRerollHandler.getIndex() - 50
+    yCo : int = baseYCoordinate + DiceRerollHandler.getHeightAddition() -100
+
+    display.blit(pygame.image.load(os.path.join(DiceRerollHandler.getImagePath())),(xCo, yCo))
+
+
+
+
 
 def drawDice(display,mouse,dice):
     drawDices(display,dice)

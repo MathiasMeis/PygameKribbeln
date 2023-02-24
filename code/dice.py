@@ -12,7 +12,7 @@ class Dice:
         self.diePink : Die = Die(Color.PINK, Color.BLACK, Color.GREEN, Color.BLUE, Color.ORANGE, Color.YELLOW)
         self.dieYellow : Die = Die(Color.YELLOW, Color.PINK, Color.BLACK, Color.GREEN, Color.BLUE, Color.ORANGE)
         self.allDice : list[Die] = [self.dieBlack, self.dieBlue, self.dieGreen, self.dieOrange, self.diePink, self.dieYellow]
-        self.toReroll : list[bool] = [False, False, False, False, False, False]
+        self.toReroll : list[bool] = [True, True, False, True, False, True]
         self.total = 0
 
     def getValues(self) -> int:
@@ -25,6 +25,8 @@ class Dice:
         for i in range(6):
             if (self.toReroll[i]):
                 self.allDice.__getitem__(i).roll()
+
+        self.show()
 
     def resetReroll(self):
         self.toReroll = [False, False, False, False, False, False]

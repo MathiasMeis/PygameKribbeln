@@ -1,38 +1,41 @@
-import color
+from color import Color
+import pygame
+import os
 
 
+class ImageHelper:
+    def getDieBackgroundColor(color : Color) -> pygame.Surface:
+        ImageHelper.getImage("dice", f"dieColor{color.name}")
 
+    def getDieNumberOverlay(value) -> pygame.Surface:
+        ImageHelper.getImage("dice", f"dieValue{value}")
 
-def getDieBackgroundColor(color):
-    None
+    def getTaskColor(color : Color):
+        ImageHelper.getImage("tasks.colors", color.value)
 
-def getDieNumberOverlay(value):
-    None
+    def getTaskNotAllowedColor(color : Color):
+        None
 
-def getTaskColor(color : color):
-    None
+    def getTaskNumber(number : int):
+        None
 
-def getTaskNotAllowedColor(color : color):
-    None
+    def getTaskOperator(operator : str): #  * < > = != &
+        None
 
-def getTaskNumber(number : int):
-    None
+    def getTaskKribbel():
+        None
 
-def getTaskOperator(operator : str): #  * < > = != &
-    None
+    def getTaskNotAllowedOverlay():
+        None
 
-def getTaskKribbel():
-    None
+    def getEndPoints():
+        None
 
-def getTaskNotAllowedOverlay():
-    None
+    def getPoints(number):
+        None
 
-def getEndPoints():
-    None
+    def getNameLabel():
+        None
 
-def getPoints(number):
-    None
-
-def getNameLabel():
-    None
-    
+    def getImage(folder : str, fileName : str) -> pygame.Surface:
+        pygame.image.load(os.path.join(f"graphics\{folder}\{fileName}.png"))

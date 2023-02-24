@@ -34,7 +34,7 @@ class ScoreBoard:
         for _ in range(len(ScoreBoard.tasks)):
             points.append(-1)
 
-        print(points)
+        #print(points)
         return points
     
     def setUpPointTable() -> None:
@@ -55,3 +55,5 @@ class ScoreBoard:
         if (isComleted):
             achievedPoints = dice.getValues()
         ScoreBoard.points[ScoreBoard.playerindex][ScoreBoard.round] = achievedPoints
+
+

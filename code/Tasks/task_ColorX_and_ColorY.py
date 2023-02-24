@@ -21,7 +21,7 @@ class Task_ColorX_and_ColorY(Task):
 
 
     def isCompleted(self, dice : Dice) -> bool:
-        if (dice.getNumberOfColorInstances(self.colors[0]) == 2, dice.getNumberOfColorInstances(self.colors[1]) == 2):
+        if (dice.getNumberOfColorInstances(self.colors[0]) == self.requiredNumberOfFirstInstance, dice.getNumberOfColorInstances(self.colors[1]) == self.requiredNumberOfSecondInstance):
             return True
         else:
             return False

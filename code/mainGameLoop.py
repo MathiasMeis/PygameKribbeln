@@ -4,6 +4,8 @@ import os
 import os.path
 import mainScreen
 import random
+import game
+from diceRerollHandler import DiceRerollHandler
 
 class Game:
 
@@ -12,7 +14,7 @@ class Game:
     def __init__(self):
         self._running = True
         self.display = None
-        self.size = self.weight, self.height = 1280, 720
+        self.size = self.weight, self.height = 1920, 980
         self.background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), self.size)
 
  
@@ -28,11 +30,17 @@ class Game:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse = pygame.mouse.get_pos()
             if mainScreen.inThrowButton(mouse[0],mouse[1]):
-                self.numbers = [random.randint(1,4),random.randint(1,4),random.randint(1,4),random.randint(1,4),random.randint(1,4),random.randint(1,4)]           
+                game.Game.playingDice.reroll()           
             if mainScreen.inTurnButton(mouse[0],mouse[1]):
                 self.numbers = [1,1,1,1,1,1]
+        if event.type ==  pygame.KEYDOWN:
+            if (DiceRerollHandler.isArrowKey(event.key)):
+                DiceRerollHandler.handleKeyInput(event.key)
+
+            
 
     def on_loop(self):
+        self.display.blit(self.background, (0,0))
         mainScreen.on_loop(self.display,self.numbers)
     def on_render(self):
         pygame.display.flip()

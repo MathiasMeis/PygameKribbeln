@@ -1,6 +1,7 @@
 from color import Color
 from dieSide import DieSide
 import random
+import pygame
 
 class Die:
 
@@ -25,10 +26,14 @@ class Die:
     def roll(self) -> None:
         self.currentSide = random.sample(self.allSides,1)[0]
 
+    def getValuePath(self) -> str:
+        return self.currentSide.valuePath
+    
+    def getColorPath(self) -> str:
+        return self.currentSide.colorPath
 
-
-    def getPic(self, value):
-        print() #get image of die at value
+    def getImage(self) -> pygame.Surface:
+        self.currentSide.getImage()
 
     def getRandomPic(self):
         print() # return random pic for animation, ggfs anders lösen

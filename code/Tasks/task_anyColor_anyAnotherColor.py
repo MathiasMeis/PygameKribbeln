@@ -25,7 +25,7 @@ class Task_anyColor_anyAnotherColor(Task):
         return firstIsTrue and secondIsTrue
         
     def getInfo(self) -> str:
-        return f"Get any Color {self.numberOfFirstInstance} times and another Color {self.numberOfSecondInstance} times."
+        return f"Get any Color {Task.formatNumberOfInstances(self.numberOfFirstInstance)} and another Color {Task.formatNumberOfInstances(self.numberOfSecondInstance)}."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

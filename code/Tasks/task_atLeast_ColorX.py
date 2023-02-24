@@ -25,7 +25,7 @@ class Task_atLeast_ColorX(Task): # mindestens n mal eine Farbe
             return False
         
     def getInfo(self) -> str:
-        return f"Get the Color {self.colors[0]} at least 2 times."
+        return f"Get the Color {self.colors[0]} at least {Task.formatNumberOfInstances(self.requiredNumberOfInstances)}."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

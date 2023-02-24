@@ -22,10 +22,10 @@ class Task_Kribbeln(Task): # 1 mal eine Farbe
 
 
     def getInfo(self) -> str:
-       # if (self.player is not None and self.player.getHighestKribblePoints() == 0):
-            return "Get as many points as you want. But you need to top it later on."
-       # else:
-        #    return f"Get at least {self.player.getHighestKribblePoints() + 1} points."
+        if (Task_Kribbeln.minimumPoints == 0):
+            return "Get as many points as you want. But you might need to top it later on."
+        else:
+            return f"Get at least {Task_Kribbeln.minimumPoints + 1} points."
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()
