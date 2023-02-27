@@ -2,6 +2,7 @@ from color import Color
 from dice import Dice
 from difficulty import Difficulty
 from task import Task
+from imageHelper import ImageHelper
 
 
 class Task_ColorXY_equal(Task):
@@ -13,10 +14,10 @@ class Task_ColorXY_equal(Task):
 
 
     def isCompleted(self, dice : Dice) -> bool:
-        if (dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[1]) == self.equal):
-            return True
+        if (dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[1])):
+            return self.equal
         else:
-            return False
+            return not self.equal
         
     def getInfo(self) -> str:
         if (self.equal):
@@ -24,5 +25,20 @@ class Task_ColorXY_equal(Task):
         else:
             return f"Don't get the color {self.colors[0].value} equally often as the color {self.colors[1].value}."
 
-    def getImage(self): # return zusammengebasteltes Bild mit fester größe
-        print()
+    def getIconPaths(self) -> list[str]:
+        paths : list[str] = []
+        paths.append(ImageHelper.getTaskColor(self.colors[0]))
+        paths.append(ImageHelper.getTaskColor(self.colors[1]))
+        if (self.equal):
+            paths.append(ImageHelper.getTaskOperator("="))
+        else:
+            paths.append(ImageHelper.getTaskOperator("!="))
+            
+        return paths
+
+
+    def getIconDeviations(self) -> list[int]:
+            return [0,100,50]
+        
+    def getIconWidth(self) -> int:
+            return 150

@@ -31,3 +31,6 @@ class Task:
 
     def getIconDeviations() -> list[int]:
         return [0]
+    
+    def getIconWidth() -> int:
+        return 50

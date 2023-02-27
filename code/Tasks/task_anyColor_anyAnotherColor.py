@@ -2,6 +2,7 @@ from color import Color
 from dice import Dice
 from difficulty import Difficulty
 from task import Task
+from imageHelper import ImageHelper
 
 
 class Task_anyColor_anyAnotherColor(Task):
@@ -27,5 +28,22 @@ class Task_anyColor_anyAnotherColor(Task):
     def getInfo(self) -> str:
         return f"Get any Color {Task.formatNumberOfInstances(self.numberOfFirstInstance)} and another Color {Task.formatNumberOfInstances(self.numberOfSecondInstance)}."
 
-    def getImage(self): # return zusammengebasteltes Bild mit fester größe
-        print()
+#from imageHelper import ImageHelper
+    def getIconPaths(self) -> list[str]:
+        paths : list[str] = []
+        paths.append(ImageHelper.getTaskNumber(self.numberOfFirstInstance))
+        paths.append(ImageHelper.getTaskOperator("*"))
+        paths.append(ImageHelper.getAnyColor("any"))
+        paths.append(ImageHelper.getTaskOperator("&"))
+        paths.append(ImageHelper.getTaskNumber(self.numberOfSecondInstance))
+        paths.append(ImageHelper.getTaskOperator("*"))
+        paths.append(ImageHelper.getAnyColor("anyOther"))
+
+        return paths
+
+
+    def getIconDeviations(self) -> list[int]:
+            return [0,50,100,150,200,250,300]
+        
+    def getIconWidth(self) -> int:
+            return 350

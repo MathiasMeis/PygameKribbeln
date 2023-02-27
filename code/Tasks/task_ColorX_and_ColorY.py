@@ -2,6 +2,7 @@ from color import Color
 from dice import Dice
 from difficulty import Difficulty
 from task import Task
+from imageHelper import ImageHelper
 
 
 class Task_ColorX_and_ColorY(Task):
@@ -35,9 +36,48 @@ class Task_ColorX_and_ColorY(Task):
 #from imageHelper import ImageHelper
     def getIconPaths(self) -> list[str]:
         paths : list[str] = []
-        #paths.append(ImageHelper.getImage("tasks", "error"))
-        return paths
+
+
         
+        if (self.requiredNumberOfFirstInstance == 0):
+            paths.append(ImageHelper.getTaskColor(self.colors[0]))
+            paths.append(ImageHelper.getTaskNotAllowedColor(self.colors[0]))
+        else:
+            paths.append(ImageHelper.getTaskNumber(self.requiredNumberOfFirstInstance))
+            paths.append(ImageHelper.getTaskOperator("*"))
+            paths.append(ImageHelper.getTaskColor(self.colors[0]))
+
+
+        paths.append(ImageHelper.getTaskOperator("&"))
+            
+        if (self.requiredNumberOfSecondInstance == 0):
+            paths.append(ImageHelper.getTaskColor(self.colors[1]))
+            paths.append(ImageHelper.getTaskNotAllowedColor(self.colors[1]))
+        else:    
+            paths.append(ImageHelper.getTaskNumber(self.requiredNumberOfSecondInstance))
+            paths.append(ImageHelper.getTaskOperator("*"))
+            paths.append(ImageHelper.getTaskColor(self.colors[1]))
+
+
+        return paths
+
 
     def getIconDeviations(self) -> list[int]:
-        return [0]
+        if (self.requiredNumberOfFirstInstance == self.requiredNumberOfSecondInstance == 0):
+            return [0,0,50,100,100]
+        elif (self.requiredNumberOfFirstInstance == 0):
+            return [0,0,50,100,150,200]
+        elif (self.requiredNumberOfSecondInstance == 0):
+            return [0,50,100,150,200,200]
+        else:
+            return [0,50,100,150,200,250,300]
+        
+    def getIconWidth(self) -> int:
+        if (self.requiredNumberOfFirstInstance == self.requiredNumberOfSecondInstance == 0):
+            return 150
+        elif (self.requiredNumberOfFirstInstance == 0):
+            return 250
+        elif (self.requiredNumberOfSecondInstance == 0):
+            return 250
+        else:
+            return 350

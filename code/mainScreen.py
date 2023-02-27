@@ -105,18 +105,20 @@ def drawTask(display):
 def drawTaskIcon(display): #TODO default x,y anpassen, breite des icons berücksichtigen(in Task funktion anbieten) 
     paths : list[str] = ScoreBoard.tasks[Game.currentRound].getIconPaths()
     dev : list[int] = ScoreBoard.tasks[Game.currentRound].getIconDeviations()
+    iconWidth : int = ScoreBoard.tasks[Game.currentRound].getIconWidth()
     for i in range(len(paths)):
         OGpic = pygame.image.load(os.path.join(paths[i]))
         width : int = 2*OGpic.get_width()
         hight : int = 2*OGpic.get_height()
         pic = pygame.transform.scale(OGpic,(width,hight))
-        display.blit(pic,(870+2*dev[i], 50))
+        display.blit(pic,((960-iconWidth)+2*dev[i], 20))
         #display.blit(pygame.image.load(os.path.join(paths[i])),(870+dev[i], 50))
     
 
-def drawTaskIndicator(display): # Final
+def drawTaskTable(display): # Final
         isCompleted : bool = ScoreBoard.tasks[Game.currentRound].isCompleted(Game.playingDice)
-        display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(810, -150))
+        display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(560, -50))
+        display.blit(pygame.image.load(os.path.join(ImageHelper.getTaskTable())),(560, -50))
 
 
 def on_loop(display):
@@ -124,7 +126,7 @@ def on_loop(display):
     drawThrowButton(display,mouse)
     drawNewTurnButton(display,mouse)
     drawDice(display,mouse)
-    drawTaskIndicator(display)
+    drawTaskTable(display)
     drawTaskIcon(display)
     drawTask(display)
     drawCloseButton(display,mouse)

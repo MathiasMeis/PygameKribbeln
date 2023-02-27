@@ -50,6 +50,7 @@ class Dice:
                 numberOfInstances += 1
         return numberOfInstances
 
+    # FIXME !!! gibt aktuell noch immer 6 zurück 
     def getNumberOfColors(self) -> int:
         presentColors : list = []
         for i in range(6):

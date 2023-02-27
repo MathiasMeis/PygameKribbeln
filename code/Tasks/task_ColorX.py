@@ -52,3 +52,9 @@ class Task_ColorX(Task): # n mal eine Farbe
             return [0,0]
         else:
             return [0,50,100]
+        
+    def getIconWidth(self) -> int:
+        if (self.requiredNumberOfInstandes == 0):
+            return 50
+        else:
+            return 150

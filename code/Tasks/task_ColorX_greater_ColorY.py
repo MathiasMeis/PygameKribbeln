@@ -2,7 +2,7 @@ from color import Color
 from dice import Dice
 from difficulty import Difficulty
 from task import Task
-
+from imageHelper import ImageHelper
 
 class Task_ColorX_greater_ColorY(Task):
 
@@ -20,5 +20,19 @@ class Task_ColorX_greater_ColorY(Task):
     def getInfo(self) -> str:
         return f"Get the color {self.colors[0].value} more often than the color {self.colors[1].value}."
 
-    def getImage(self): # return zusammengebasteltes Bild mit fester größe
-        print()
+
+#from imageHelper import ImageHelper
+    def getIconPaths(self) -> list[str]:
+        paths : list[str] = []
+        paths.append(ImageHelper.getTaskColor(self.colors[0]))
+        paths.append(ImageHelper.getTaskOperator(">"))
+        paths.append(ImageHelper.getTaskColor(self.colors[1]))
+
+        return paths
+
+
+    def getIconDeviations(self) -> list[int]:
+            return [0,50,100]
+        
+    def getIconWidth(self) -> int:
+            return 150

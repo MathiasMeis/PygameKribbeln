@@ -42,7 +42,11 @@ class ImageHelper:
         
     def getAnyColor(color : str): #  * < > = != &
         if (color == "any"):
-            return ImageHelper.getImage("tasks", "ColorsAny")
+            return ImageHelper.getImage("tasks", "ColorAny")
+        elif (color == "anyOther"):
+            return ImageHelper.getImage("tasks", "ColorAnyOther")
+        elif (color == "every"):
+            return ImageHelper.getImage("tasks", "ColorEvery")
         elif (color == "1"):
             return ImageHelper.getImage("tasks", "Colors1")
         elif (color == "2"):
@@ -60,6 +64,9 @@ class ImageHelper:
     
     def getTaskMinPrefix():
         return ImageHelper.getImage("tasks", "min")
+    
+    def getTaskTable():
+        return ImageHelper.getImage("labels", "taskTable")
     
     def getUserIcon():
         return ImageHelper.getImage("tasks", "IconUser")
