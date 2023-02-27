@@ -38,6 +38,11 @@ class Dice:
     def disableReroll(self, number):
         self.toReroll[number] = False
 
+    def switchReroll(self,number):
+        if self.toReroll[number] == True:
+            self.toReroll[number] = False
+        else: self.toReroll[number] = True
+
     def getNumberOfColorInstances(self, color) -> int:
         numberOfInstances : int = 0
         for i in range(6):

@@ -6,16 +6,22 @@ from game import Game
 from diceRerollHandler import DiceRerollHandler
 from imageHelper import ImageHelper
 #Hier wird der ui stuff für das Würfel
-throwButtonPos = [300, 500, 200, 100]
-throwLabelPos = [340,500]
-turnButtonPos = [600, 500, 350, 100]
-turnLabelPos = [620,500]
+throwButtonPos = [300, 800, 200, 100]
+throwLabelPos = [340,800]
+turnButtonPos = [600, 800, 350, 100]
+turnLabelPos = [620,800]
+closeButtonPos = [1800, 50, 100, 100]
+closeLabelPos = [1825,50]
+scoreButtonPos = [1700, 550, 200, 100]
+scoreLabelPos = [1700,550]
 
 pygame.font.init()
 font  = pygame.font.SysFont("comicsans", 70)
 smallFont  = pygame.font.SysFont("comicsans", 30)
 throwLabel = font.render("Roll", 1, (255, 255, 255))
 turnLabel = font.render("New Turn", 1, (255, 255, 255))
+closeLabel = font.render("X", 1, (255, 255, 255))
+scoreLabel = font.render("Score", 1, (255, 255, 255))
 
 def inThrowButton(x,y):
     if throwButtonPos[0] <= x <= throwButtonPos[0]+throwButtonPos[2] and throwButtonPos[1] <= y <= throwButtonPos[1]+throwButtonPos[3]: return True
@@ -31,9 +37,13 @@ def mightBeDieStateChange(x,y) -> bool:
     else:
         return False
     
+def inScoreButton(x,y):
+    if scoreButtonPos[0] <= x <= scoreButtonPos[0]+scoreButtonPos[2] and scoreButtonPos[1] <= y <= scoreButtonPos[1]+scoreButtonPos[3]: return True
+    else: return False
 
-
-
+def inCloseButton(x,y):
+    if closeButtonPos[0] <= x <= closeButtonPos[0]+closeButtonPos[2] and closeButtonPos[1] <= y <= closeButtonPos[1]+closeButtonPos[3]: return True
+    else: return False
 
 
 def drawThrowButton(display,mouse):
@@ -44,7 +54,7 @@ def drawThrowButton(display,mouse):
     display.blit(throwLabel, throwLabelPos)
     #Hier später einfach Bild von Button Neuer Wurf rein
 
-def drawNewTurnButton(display,mouse): # kann erstmal für testzecke so bleiben
+def drawNewTurnButton(display,mouse):
     if inTurnButton(mouse[0],mouse[1]):
         pygame.draw.rect(display, (120,30,70), turnButtonPos)
     else: 
@@ -52,20 +62,41 @@ def drawNewTurnButton(display,mouse): # kann erstmal für testzecke so bleiben
     display.blit(turnLabel, turnLabelPos)
     #Hier später einfach Bild von Button Neuer Zug rein
 
-def drawDices(display,number):
-    baseXCoordinate : int = 500
-    baseYCoordinate : int = 400
-    deviation : int = 250
+
+def drawScoreButton(display,mouse):
+    if inScoreButton(mouse[0],mouse[1]):
+        pygame.draw.rect(display, (120,30,70), scoreButtonPos)
+    else: 
+        pygame.draw.rect(display, (120,120,120), scoreButtonPos)
+    display.blit(scoreLabel, scoreLabelPos)
+    #Hier später einfach Bild von Button Neuer Zug rein
+
+
+def drawCloseButton(display,mouse):
+    if inCloseButton(mouse[0],mouse[1]):
+        pygame.draw.rect(display, (120,30,70), closeButtonPos)
+    else: 
+        pygame.draw.rect(display, (120,120,120), closeButtonPos)
+    display.blit(closeLabel, closeLabelPos)
+    #Hier später einfach Bild von Button Neuer Zug rein
+
+
+def drawDice(display,mouse):
+    drawDices(display)
+    drawDiceHover(display,mouse)
+
+def drawDices(display):
     for i in range(6):
-        xCoordinate = baseXCoordinate + i*deviation
-        yCoordinate = baseYCoordinate
+        xCoordinate = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
+        yCoordinate = DiceRerollHandler.baseDicePos[1]
         if(Game.playingDice.toReroll[i] == False):
             yCoordinate += 300
         display.blit(pygame.image.load(os.path.join(Game.playingDice.allDice[i].getColorPath())),(xCoordinate, yCoordinate))
         display.blit(pygame.image.load(os.path.join(Game.playingDice.allDice[i].getValuePath())),(xCoordinate, yCoordinate))
-    xCo : int = baseXCoordinate + deviation*DiceRerollHandler.getIndex() - 50
-    yCo : int = baseYCoordinate + DiceRerollHandler.getHeightAddition() -100
-    display.blit(pygame.image.load(os.path.join(DiceRerollHandler.getImagePath())),(xCo, yCo))
+
+def drawDiceHover(display, mouse):
+    if DiceRerollHandler.isInDice(DiceRerollHandler,mouse):
+        display.blit(pygame.image.load(os.path.join(DiceRerollHandler.getImagePath())),DiceRerollHandler.getHoverPosition(DiceRerollHandler))
 
 def drawTask(display):
     taskLabel = smallFont.render(ScoreBoard.tasks[Game.currentRound].getInfo(), 1, (255, 255, 255))
@@ -88,26 +119,13 @@ def drawTaskIndicator(display): # Final
         display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(810, -150))
 
 
-def drawDice(display,mouse,dice):
-    drawDices(display,dice)
-    #if inDice1(mouse[0],mouse[1]):
-    #    drawDiceHover1(display)
-    #if inDice2(mouse[0],mouse[1]):
-    #    drawDiceHover2(display)
-    #if inDice3(mouse[0],mouse[1]):
-    #    drawDiceHover3(display)
-    #if inDice4(mouse[0],mouse[1]):
-    #    drawDiceHover4(display)
-    #if inDice5(mouse[0],mouse[1]):
-    #    drawDiceHover5(display)
-    #if inDice6(mouse[0],mouse[1]):
-    #    drawDiceHover6(display)
-
-def on_loop(display, dice):
+def on_loop(display):
     mouse = pygame.mouse.get_pos()
     drawThrowButton(display,mouse)
     drawNewTurnButton(display,mouse)
-    drawDice(display,mouse,dice)
+    drawDice(display,mouse)
     drawTaskIndicator(display)
     drawTaskIcon(display)
     drawTask(display)
+    drawCloseButton(display,mouse)
+    drawScoreButton(display,mouse)

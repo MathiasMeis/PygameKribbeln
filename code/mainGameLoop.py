@@ -9,8 +9,6 @@ from diceRerollHandler import DiceRerollHandler
 
 class Game:
 
-    numbers = [1,1,1,1,1,1]
-
     def __init__(self):
         self._running = True
         self.display = None
@@ -32,8 +30,9 @@ class Game:
             if mainScreen.inThrowButton(mouse[0],mouse[1]):
                 game.Game.playingDice.reroll()           
             if mainScreen.inTurnButton(mouse[0],mouse[1]):
-                self.numbers = [1,1,1,1,1,1]
                 game.Game.currentRound += 1
+            if DiceRerollHandler.isInDice(DiceRerollHandler,mouse):
+                DiceRerollHandler.switchReroll()
         if event.type ==  pygame.KEYDOWN:
             if (DiceRerollHandler.isArrowKey(event.key)):
                 DiceRerollHandler.handleKeyInput(event.key)
@@ -42,7 +41,7 @@ class Game:
 
     def on_loop(self):
         self.display.blit(self.background, (0,0))
-        mainScreen.on_loop(self.display,self.numbers)
+        mainScreen.on_loop(self.display)
     def on_render(self):
         pygame.display.flip()
     def on_cleanup(self):
