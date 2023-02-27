@@ -6,14 +6,16 @@ import mainScreen
 import random
 import game
 from diceRerollHandler import DiceRerollHandler
+from imageHelper import ImageHelper
 
 class Game:
 
     def __init__(self):
         self._running = True
         self.display = None
-        self.size = self.weight, self.height = 1920, 980
-        self.background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), self.size)
+        self.size = self.weight, self.height = 1920, 1080
+        #self.background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), self.size)
+        self.background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("concept")), self.size)
 
  
     def on_init(self):

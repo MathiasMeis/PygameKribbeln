@@ -80,5 +80,8 @@ class ImageHelper:
     def getNameLabel():
         None
 
+    def getBackground(name : str):
+        return ImageHelper.getImage("background", name)
+
     def getImage(folder : str, fileName : str) -> str:
         return f"graphics\{folder}\{fileName}.png"
