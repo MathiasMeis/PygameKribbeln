@@ -80,6 +80,9 @@ class ImageHelper:
     def getNameLabel():
         None
 
+    def getButton(name : str) -> str:
+        return ImageHelper.getImage("buttons", name)
+
     def getExitButton() -> str:
         return ImageHelper.getImage("labels", "buttonExit")
     

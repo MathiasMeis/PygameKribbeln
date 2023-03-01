@@ -8,13 +8,12 @@ from startingScreen import StartingScreen
 from mainScreen import MainScreen
 
 class mainGameLoop:
+    size = weight, height = 1920, 1080
 
     def __init__(self):
         self._running = True
         self.display = None
-        self.size = self.weight, self.height = 1920, 1080
         #self.background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), self.size)
-        self.background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("concept")), self.size)
 
  
     def on_init():
