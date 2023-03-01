@@ -1,6 +1,7 @@
 from dice import Dice
 from scoreBoard import ScoreBoard
-from startingScreen import StartingScreen
+from gameSetup import GameSetup
+from gamestate import GameState
 
 
 class Game:
@@ -8,6 +9,7 @@ class Game:
     scoreBoard : ScoreBoard = ScoreBoard()
     currentPlayerIndex : int = 0 #ggfs def dafür
     currentRound : int = 0
+    currentState : GameState = GameState.STARTING
 
     def start():
         print("Let's go")
@@ -27,7 +29,7 @@ def nextRound():
 
 def nextPlayer():
     setPoints()
-    if (Game.currentPlayerIndex<StartingScreen.numberOfPlayers -1):
+    if (Game.currentPlayerIndex<GameSetup.numberOfPlayers -1):
         Game.currentPlayerIndex += 1
     else:
         Game.currentPlayerIndex = 0

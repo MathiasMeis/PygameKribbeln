@@ -2,66 +2,49 @@ import pygame
 from pygame.locals import *
 import os
 import os.path
-import mainScreen
-import random
-import game
-from diceRerollHandler import DiceRerollHandler
-from imageHelper import ImageHelper
+from gamestate import GameState
+from game import Game
+from startingScreen import StartingScreen
+from mainScreen import MainScreen
 
-class Game:
+class mainGameLoop:
 
     def __init__(self):
         self._running = True
         self.display = None
-        self.size = self.weight, self.height = 1920, 980
+        self.size = self.weight, self.height = 1920, 1080
         #self.background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), self.size)
         self.background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("concept")), self.size)
 
  
-    def on_init(self):
+    def on_init():
         pygame.init()
-        self.display = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
-        self.display.blit(self.background, (0,0))
-        self._running = True
+        mainGameLoop.display = pygame.display.set_mode(mainGameLoop.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
  
-    def on_event(self, event):
-        if event.type == pygame.QUIT:
-            self._running = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse = pygame.mouse.get_pos()
-            if mainScreen.inThrowButton(mouse[0],mouse[1]):
-                game.Game.playingDice.reroll()           
-            if mainScreen.inTurnButton(mouse[0],mouse[1]):
-                game.Game.currentRound += 1
-            if DiceRerollHandler.isInDice(DiceRerollHandler,mouse):
-                DiceRerollHandler.switchReroll()
-        if event.type ==  pygame.KEYDOWN:
-            if (DiceRerollHandler.isArrowKey(event.key)):
-                DiceRerollHandler.handleKeyInput(event.key)
-
-            
-
-    def on_loop(self):
-        self.display.blit(self.background, (0,0))
-        mainScreen.on_loop(self.display)
-    def on_render(self):
+    def on_loop():
+        if Game.currentState == GameState.STARTING:
+            StartingScreen.on_loop(mainGameLoop.display)
+        elif Game.currentState == GameState.PLAYING:
+            MainScreen.on_loop(mainGameLoop.display)
         pygame.display.flip()
-    def on_cleanup(self):
+
+    def on_cleanup():
         pygame.quit()
 
     
-    def on_execute(self):
-        if self.on_init() == False:
-            self._running = False
+    def on_execute():
+        if mainGameLoop.on_init() == False:
+            Game.currentState = GameState.FINISHED
  
-        while( self._running ):
-            for event in pygame.event.get():
-                self.on_event(event)
-            self.on_loop()
-            self.on_render()
-        self.on_cleanup()
+        while(Game.currentState != GameState.FINISHED):
+            for event in pygame.event.get(): 
+                if event.type == pygame.QUIT:
+                    Game.currentState = GameState.FINISHED
+                if Game.currentState == GameState.STARTING:
+                    StartingScreen.on_event(event)
+                elif Game.currentState == GameState.PLAYING:
+                    MainScreen.on_event(event)
+                mainGameLoop.on_loop()
+        mainGameLoop.on_cleanup()
 
-
-if __name__ == "__main__" :
-    mainGame = Game()
-    mainGame.on_execute()
+mainGameLoop.on_execute()

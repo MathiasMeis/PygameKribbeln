@@ -1,7 +1,7 @@
 from task import Task
 from taskHelper import TaskHelper
-from startingScreen import StartingScreen
 from player import Player
+from gameSetup import GameSetup
 from dice import Dice
 
 
@@ -39,7 +39,7 @@ class ScoreBoard:
     
     def setUpPointTable() -> None:
         ScoreBoard.points : list[list[int]] = []
-        for _ in range(StartingScreen.numberOfPlayers):
+        for _ in range(GameSetup.numberOfPlayers):
             ScoreBoard.points.append(ScoreBoard.getPointList())
 
         ScoreBoard.points
@@ -49,7 +49,7 @@ class ScoreBoard:
         achievedPoints : int = 0
         currentTask : Task = ScoreBoard.tasks[roundIndex]
         if (TaskHelper.isKribbelnTask(currentTask)):
-            TaskHelper.setKribbelnMinumum(StartingScreen.players[playerIndex].getHighestKribblePoints())
+            TaskHelper.setKribbelnMinumum(GameSetup.players[playerIndex].getHighestKribblePoints())
 
         isComleted : bool = currentTask.isCompleted(dice)
         if (isComleted):

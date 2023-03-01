@@ -6,8 +6,8 @@ class DiceRerollHandler:
 
     index: int = 0
 
-    baseDicePos : int = [200,300]
-    diceDistance : int = 250
+    baseDicePos : int = [550,420]
+    diceDistance : int = 200
 
     directionDown : bool = True
 
@@ -47,14 +47,14 @@ class DiceRerollHandler:
         elif key == pygame.K_RIGHT:
             DiceRerollHandler.raiseIndex()
 
-    def isInDice(self,mouse) -> bool:
+    def setIndexWithMouse(mouse) -> bool:
         for i in range(6):
-            xCoordinate : int = self.baseDicePos[0] + i*self.diceDistance
-            yCoordinate : int = self.baseDicePos[1]  #TODO: hier irgendwas mit DiceRerollHandler.getIndex???
+            xCoordinate : int = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
+            yCoordinate : int = DiceRerollHandler.baseDicePos[1]
             if(Game.playingDice.toReroll[i] == False):
                 yCoordinate += 300
             if xCoordinate <= mouse[0] <= xCoordinate+100 and yCoordinate <= mouse[1] <= yCoordinate+100:
-                self.index = i
+                DiceRerollHandler.index = i
                 return True
         return False
         
@@ -70,9 +70,9 @@ class DiceRerollHandler:
         path : str = f"graphics\dice\diceHandler{indicator}.png"
         return path
     
-    def getHoverPosition(self):
-        xPos = self.baseDicePos[0] + self.index*self.diceDistance -50
-        yPos = self.baseDicePos[1] + self.getHeightAddition() -100
+    def getHoverPosition():
+        xPos = DiceRerollHandler.baseDicePos[0] + DiceRerollHandler.index*DiceRerollHandler.diceDistance -50
+        yPos = DiceRerollHandler.baseDicePos[1] + DiceRerollHandler.getHeightAddition() -100
         return [xPos,yPos]
     
     def getHeightAddition():
