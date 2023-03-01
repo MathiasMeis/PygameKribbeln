@@ -6,7 +6,7 @@ from player import Player
 
 class StartingScreen:
     numberOfPlayers : int = 0
-    players : list[Player] = []
+    players : list[Player] = [Player("Player1"), Player("Player2")]
     currentIndex : int
 
     def addPlayer():

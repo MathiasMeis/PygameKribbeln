@@ -18,4 +18,4 @@ class Player:
         return self.highestKribbelPoints
 
     def getName(self):
-        getNameLabel(self.name)
+        return self.name

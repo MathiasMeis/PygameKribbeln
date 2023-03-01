@@ -5,6 +5,10 @@ from color import Color
 from game import Game
 from diceRerollHandler import DiceRerollHandler
 from imageHelper import ImageHelper
+from startingScreen import StartingScreen
+from messageBoard import MessageBoard
+
+exitMessage : MessageBoard = MessageBoard("Do you want to exit?", "EXIT", "CANCEL", True)
 #Hier wird der ui stuff für das Würfel
 throwButtonPos = [300, 800, 200, 100]
 throwLabelPos = [340,800]
@@ -120,6 +124,34 @@ def drawTaskTable(display): # Final
         display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(560, -50))
         display.blit(pygame.image.load(os.path.join(ImageHelper.getTaskTable())),(560, -50))
 
+def drawCurrentPlayerLabel(display):
+    cFont  = pygame.font.SysFont("comicsans", 30)
+    playerLabel = cFont.render(StartingScreen.players[0].getName(), 1, (255, 255, 255))
+    display.blit(playerLabel, [10,10])
+    #display.blit(pygame.image.load(os.path.join(ImageHelper.getTaskTable())),(560, -50))
+
+def drawMessageBoard(display):
+    message : str = exitMessage.message
+    baseX : int = 660
+    baseY : int = 390
+    display.blit(pygame.image.load(os.path.join(ImageHelper.getMessageBoardIcon())),(baseX, baseY))
+    buttonLabels : list[str] = exitMessage.getButtonLabels()
+    buttonDeviation : list[int] = exitMessage.getIconDeviation()
+    buttonIconPath : list[str] = exitMessage.getIconPaths()
+
+    for i in range(exitMessage.getNumberOfButtons()):
+        display.blit(pygame.image.load(os.path.join(buttonIconPath[i])),(baseX+200+buttonDeviation[i], baseY+275))
+        if(i == 0 and exitMessage.firstButtonIsRed):
+            buttonLabel = smallFont.render(buttonLabels[i], 1, (255, 255, 255))
+        else:
+            buttonLabel = smallFont.render(buttonLabels[i], 1, (0, 0, 0))
+        
+        centering : int = 100 - (buttonLabel.get_width() /2)
+        display.blit(buttonLabel, [baseX+200+buttonDeviation[i]+centering,baseY+275])
+    
+
+
+
 
 def on_loop(display):
     mouse = pygame.mouse.get_pos()
@@ -131,3 +163,5 @@ def on_loop(display):
     drawTask(display)
     drawCloseButton(display,mouse)
     drawScoreButton(display,mouse)
+    drawCurrentPlayerLabel(display)
+    drawMessageBoard(display)
