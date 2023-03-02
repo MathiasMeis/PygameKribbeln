@@ -3,14 +3,8 @@ import pygame
 import os.path
 
 class Button:
-    pygame.font.init()
-    bigFont  = pygame.font.SysFont("comicsans", 50)
-    mediumFont  = pygame.font.SysFont("comicsans", 30)
-    smallFont  = pygame.font.SysFont("comicsans", 20)
 
-
-
-    def __init__(self, xCoordinate : int, yCoordinate : int, width : int, height : int, label : str, imageName : str = "buttonWhite" , color = (0,0,0), scale : float = 1, fontSize : str = 30):
+    def __init__(self, xCoordinate : int, yCoordinate : int, width : int, height : int, label : str, imageName : str = "buttonWhite" , color = (0,0,0), fontSize : str = 30):
         self.xCoordinate : int = xCoordinate
         self.yCoordinate : int = yCoordinate
         self.width : int = width
@@ -20,8 +14,6 @@ class Button:
         self.scale : float = 1.0
         self.imagePath = ImageHelper.getButton(imageName)
         self.fontSize : int = fontSize
-
-
 
     def draw(self, display) -> None:
         halfScale : float = (self.scale/2) - 0.5
@@ -36,9 +28,6 @@ class Button:
         yCentering : int = (self.height/2) - (buttonLabel.get_height() /2)
         display.blit(buttonLabel, [self.xCoordinate+xCentering,self.yCoordinate+yCentering])
 
-        #display.blit(pygame.image.load(os.path.join(self.imagePath)),(self.xCoordinate, self.yCoordinate))
-
-
     def mouseIsIn(self, xCoord : int, yCoord : int) -> bool:
         if (self.xCoordinate-(self.width*(self.scale-1)) <= xCoord <= self.xCoordinate+(self.width*(self.scale))):
             if(self.yCoordinate-(self.height*(self.scale-1)) <= yCoord <= self.yCoordinate+(self.height*(self.scale))):
@@ -47,4 +36,3 @@ class Button:
 
         self.scale = 1.0
         return False
-

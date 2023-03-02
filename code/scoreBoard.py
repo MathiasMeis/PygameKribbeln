@@ -14,6 +14,7 @@ class ScoreBoard:
     tasks : list[Task] = TaskHelper.getEveryTask()
     playerindex : int = -1
     points : list[list[int]]
+    resultingPoints : list[list[int]]
 
 
 

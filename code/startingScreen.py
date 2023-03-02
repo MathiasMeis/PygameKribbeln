@@ -93,7 +93,7 @@ class StartingScreen:
             display.blit(playerLabel,[x,y,xL,yL]) 
 
     def drawMessageBoard(display):
-        message : str = StartingScreen.smallFont.render(StartingScreen.quitMessageBoard.message, 1, (0, 0, 0))
+        message : str = StartingScreen.smallFont.render(StartingScreen.quitMessageBoard.messages, 1, (0, 0, 0))
         baseX : int = 660
         baseY : int = 390
         buttonLabels : list[str] = StartingScreen.quitMessageBoard.getButtonLabels()

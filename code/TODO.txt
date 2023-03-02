@@ -5,20 +5,12 @@ ALWAYS OPEN:
 
 
 OPEN:
-- Enum "GameState" erstellen mit elementen "STARTING", "PLAYING", "FINISHED". also namen sind egal aber um die anzeige und die inputmöglichkeiten zu kontrollieren
-- im startingScreen buttons etc hinzufügen um spieler hinzuzufügen (bei bedarf auch schon die umbenennung der spielernamen ermöglichen, ist aber erstmal nicht relevant)
-- button zum schließen  des spiels hinzufügen(oben rechts), da sollte erstmal ein "Willst du wirklich beenden"-Dialog kommen(ggfs stateunabhängig, evtl auch nur starting und playing)
-- klasse MessageBoard erstellen, das erstmal den schließdialog anzeigt (später können wir hier beim spielerwechsel die erreichten punkte und den nächsten spielernamen anzeigen)
-- Infobox für TaskInfo(echts neben oder in Taskanzeige(Tooltip)), öffnet dialog mit text Task.getInfos()
 - players und gamestate in game verschieben
 - startinScreen on_event aufräumen
-
-
-- draw/isIn Methoden ggfs in Klassen auslagern
+- taskInfo in eine liste aufteilen, sodass diese über mehrere zeilen ausgegeben werden können
+- vertikales centering für die messages im MessageBoard
 - Klasse endscreen erstellen, die erstmal die Optionen "New Game", "Replay" und "Exit" anbieten soll (später soll da auch das scoreBoard angezeigt werden)
 - option zum anzeigen des scoreboards, das muss dann auch wieder schließbar sein, das ding kann auch erstmal leer bleiben.
-- boolean flags isShowMessageBoard und isShowScoreBoard die sowohl zum zeichen berücksichtigt werden, als auch in der eventloop die erste bedingungseben darstellen sollten, 2te ebene sollte dann der Gamestate sein, unterste ebene ist dann der aktuelle inhalt
-- beim zeichen sollte die Gamestates ein elseIf konstukt bilden, anschließend über die boolean flags messageboard bzw scoreboard als overlay
 
 
 
@@ -26,11 +18,21 @@ OPEN:
 
 
 WIP(Jonas):
-- im mainscreen ein Label für den aktuellen spieler(oben links)
-
+- reroll begrenzung hinterlegen
+- punkte verteilung hinterlegen
+- kribbeln.py löschen und game.py umbenennen
 
 
 WIP(Mathias):
+- im startingScreen buttons etc hinzufügen um spieler hinzuzufügen (bei bedarf auch schon die umbenennung der spielernamen ermöglichen, ist aber erstmal nicht relevant)
 
 
 DONE:
+- im mainscreen ein Label für den aktuellen spieler(oben links)
+- Infobox für TaskInfo(echts neben oder in Taskanzeige(Tooltip)), öffnet dialog mit text Task.getInfos()
+- draw/isIn Methoden ggfs in Klassen auslagern
+- Enum "GameState" erstellen mit elementen "STARTING", "PLAYING", "FINISHED". also namen sind egal aber um die anzeige und die inputmöglichkeiten zu kontrollieren
+- klasse MessageBoard erstellen, das erstmal den schließdialog anzeigt (später können wir hier beim spielerwechsel die erreichten punkte und den nächsten spielernamen anzeigen)
+- button zum schließen  des spiels hinzufügen(oben rechts), da sollte erstmal ein "Willst du wirklich beenden"-Dialog kommen(ggfs stateunabhängig, evtl auch nur starting und playing)
+- boolean flags isShowMessageBoard und isShowScoreBoard die sowohl zum zeichen berücksichtigt werden, als auch in der eventloop die erste bedingungseben darstellen sollten, 2te ebene sollte dann der Gamestate sein, unterste ebene ist dann der aktuelle inhalt
+- beim zeichen sollte die Gamestates ein elseIf konstukt bilden, anschließend über die boolean flags messageboard bzw scoreboard als overlay

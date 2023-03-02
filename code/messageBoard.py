@@ -1,53 +1,61 @@
 
 from imageHelper import ImageHelper
-
+from button import Button
+import pygame
+import os.path
 
 class MessageBoard:
+    xCoordinate = 660
+    yCoordinate = 390
+    width = 600
+    height = 300
+    pygame.font.init()
+    font  = pygame.font.SysFont("comicsans", 70)
 
 
-    def __init__(self, message : str, button1 : str, button2 : str = None, firstInRed : bool = False):
-        self.message : str = message
-        self.firstButton : str = button1
-        self.secondButton : str = button2
-        self.firstButtonIsRed : bool = firstInRed
-        self.onlyOneButton : bool = False
-        if(self.secondButton == None):
-            self.onlyOneButton = True
+    def __init__(self, messages : list[str], hasCloseButton : bool = True, hasButton : bool = False, buttonText : str = " ", buttonFontColor = (0,0,0), buttenImageName : str = "buttonWhite"):
+        self.messages : list[str] = messages
+        self.hasButton : bool = hasButton
+        self.button1 : Button = None
+        self.hasCloseButton : bool = hasCloseButton
+        self.closeButton : Button = None
 
-    def getIconPaths(self) -> list[str]:
-        paths : list[str] = []
-        if(self.firstButtonIsRed):
-            paths.append(ImageHelper.getRedButton())
-        else:
-            paths.append(ImageHelper.getWhiteButton())
-        if(not self.onlyOneButton):
-            paths.append(ImageHelper.getWhiteButton())
-        return paths
+        if(self.hasButton == True):
+            self.button1 : Button = Button(MessageBoard.xCoordinate+200, MessageBoard.yCoordinate+275, 200, 50, buttonText, imageName=buttenImageName, color=buttonFontColor)
 
-    def getIconDeviation(self) -> list[int]:
-        if(self.onlyOneButton):
-            return [0]
-        else:
-            return [-150,150]
-        
-    def getButtonLabels(self) -> list[str]:
-        labels : list[str] = []
-        labels.append(self.firstButton)
-        if(not self.onlyOneButton):
-            labels.append(self.secondButton)
-        return labels
+        if(self.hasCloseButton == True):
+            self.closeButton : Button = Button(MessageBoard.xCoordinate+550, MessageBoard.yCoordinate, 50, 50, "", imageName="close")
 
-    def getNumberOfButtons(self) -> int:
-        if(self.secondButton == None):
-            return 1
-        else:
-            return 2
     
-    
+    def draw(self, display):
+        display.blit(pygame.image.load(os.path.join(ImageHelper.getMessageBoardIcon())),(MessageBoard.xCoordinate, MessageBoard.yCoordinate))
+
+        for i in range(len(self.messages)):
+            pygame.font.init()
+            messageFont  = pygame.font.SysFont("comicsans", 30)
+            meassageLabel = messageFont.render(self.messages[i], 1, (0,0,0))
+            centering : int = (self.width/2) - (meassageLabel.get_width() /2)
+            deviation : int = 50*i
+            display.blit(meassageLabel, [self.xCoordinate+centering,450+deviation])
+        if(self.hasButton):
+            self.button1.draw(display)
+
+        if(self.hasCloseButton):
+            self.closeButton.draw(display)
 
 
-
+    def checkForMouseLocationOnButton(self, xCoord, yCoord):
+        if (self.hasButton):
+            return self.button1.mouseIsIn(xCoord, yCoord)
+        else:
+            return False
         
+    def checkForMouseLocationOnCloseButton(self, xCoord, yCoord):
+        if (self.hasCloseButton):
+            return self.closeButton.mouseIsIn(xCoord, yCoord)
+        else:
+            return False
+    
 
 
 
