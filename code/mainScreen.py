@@ -33,17 +33,13 @@ class MainScreen:
     closeLabel = font.render("X", 1, (255, 255, 255))
     scoreLabel = font.render("Score", 1, (255, 255, 255))
     testButton : Button = Button(100,100,200,50,"TESTmbi")
+    rerollButton : Button = Button(100,400,300,100,"REROLL",imageName="300x100White")
+    finishButton : Button = Button(100,800,300,100,"FINISH EARLY",imageName="300x100White")
+    quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
+    scoreBoardButton : Button = Button(1760,200,300,100,"SCORE\nBOARD",imageName="300x100White")
 
     size = weight, height = 1920, 980 # 1920, 1080
     background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("concept")), size)
-
-    def inThrowButton(x,y):
-        if MainScreen.throwButtonPos[0] <= x <= MainScreen.throwButtonPos[0]+MainScreen.throwButtonPos[2] and MainScreen.throwButtonPos[1] <= y <= MainScreen.throwButtonPos[1]+MainScreen.throwButtonPos[3]: return True
-        else: return False
-
-    def inTurnButton(x,y):
-        if MainScreen.turnButtonPos[0] <= x <= MainScreen.turnButtonPos[0]+MainScreen.turnButtonPos[2] and MainScreen.turnButtonPos[1] <= y <= MainScreen.turnButtonPos[1]+MainScreen.turnButtonPos[3]: return True
-        else: return False
 
     def mightBeDieStateChange(x,y) -> bool:
         if():
@@ -51,49 +47,22 @@ class MainScreen:
         else:
             return False
 
-    def inScoreButton(x,y):
-        if MainScreen.scoreButtonPos[0] <= x <= MainScreen.scoreButtonPos[0]+MainScreen.scoreButtonPos[2] and MainScreen.scoreButtonPos[1] <= y <= MainScreen.scoreButtonPos[1]+MainScreen.scoreButtonPos[3]: return True
-        else: return False
+    def drawPointsLabel(display):
+        display.blit(pygame.image.load(os.path.join(ImageHelper.getButton("300x200White"))),(100, 550))
 
-    def inCloseButton(x,y):
-        if MainScreen.closeButtonPos[0] <= x <= MainScreen.closeButtonPos[0]+MainScreen.closeButtonPos[2] and MainScreen.closeButtonPos[1] <= y <= MainScreen.closeButtonPos[1]+MainScreen.closeButtonPos[3]: return True
-        else: return False
-
-
-    def drawThrowButton(display,mouse):
-        if MainScreen.inThrowButton(mouse[0],mouse[1]):
-            pygame.draw.rect(display, (120,30,70), MainScreen.throwButtonPos)
-        else: 
-            pygame.draw.rect(display, (120,120,120), MainScreen.throwButtonPos)
-        display.blit(MainScreen.throwLabel, MainScreen.throwLabelPos)
-        #Hier später einfach Bild von Button Neuer Wurf rein
-
-    def drawNewTurnButton(display,mouse):
-        if MainScreen.inTurnButton(mouse[0],mouse[1]):
-            pygame.draw.rect(display, (120,30,70), MainScreen.turnButtonPos)
-        else: 
-            pygame.draw.rect(display, (120,120,120), MainScreen.turnButtonPos)
-        display.blit(MainScreen.turnLabel, MainScreen.turnLabelPos)
-        #Hier später einfach Bild von Button Neuer Zug rein
+        pointsHeaderLabel = MainScreen.smallFont.render("POINTS:", 1, (0, 0, 0))
+        headerCentering : int = (150) - (pointsHeaderLabel.get_width() /2)
+        display.blit(pointsHeaderLabel, [100+headerCentering,560])
 
 
-    def drawScoreButton(display,mouse):
-        if MainScreen.inScoreButton(mouse[0],mouse[1]):
-            pygame.draw.rect(display, (120,30,70), MainScreen.scoreButtonPos)
-        else: 
-            pygame.draw.rect(display, (120,120,120), MainScreen.scoreButtonPos)
-        display.blit(MainScreen.scoreLabel, MainScreen.scoreLabelPos)
-        #Hier später einfach Bild von Button Neuer Zug rein
+        pointFont  = pygame.font.SysFont("comicsans", 70)
 
-
-    def drawCloseButton(display,mouse):
-        if MainScreen.inCloseButton(mouse[0],mouse[1]):
-            pygame.draw.rect(display, (120,30,70), MainScreen.closeButtonPos)
-        else: 
-            pygame.draw.rect(display, (120,120,120), MainScreen.closeButtonPos)
-        display.blit(MainScreen.closeLabel, MainScreen.closeLabelPos)
-        #Hier später einfach Bild von Button Neuer Zug rein
-
+        if(ScoreBoard.tasks[Game.currentRound].isCompleted(Game.playingDice)):
+            pointsLabel = pointFont.render(f"{Game.playingDice.getValues()}", 1, (0, 216, 36))
+        else:
+            pointsLabel = pointFont.render(f"{Game.playingDice.getValues()}", 1, (255, 0, 25))
+        centering : int = (150) - (pointsLabel.get_width() /2)
+        display.blit(pointsLabel, [100+centering,600])
 
     def drawDice(display,mouse):
         MainScreen.testButton.draw(display)
@@ -189,14 +158,13 @@ class MainScreen:
         else:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
-                if MainScreen.inThrowButton(mouse[0],mouse[1]):
+                if(MainScreen.rerollButton.mouseIsIn(mouse[0],mouse[1])):
                     Game.playingDice.reroll()   
                 if MainScreen.testButton.mouseIsIn(mouse[0],mouse[1]):
                     print("HI")
-
-                if MainScreen.inTurnButton(mouse[0],mouse[1]):
+                if(MainScreen.finishButton.mouseIsIn(mouse[0],mouse[1])):
                     Game.currentRound += 1
-                if MainScreen.inCloseButton(mouse[0],mouse[1]):
+                if (MainScreen.quitButton.mouseIsIn(mouse[0], mouse [1])):
                     MainScreen.isShowQuitMessageBoard = True
                 if DiceRerollHandler.setIndexWithMouse(mouse):
                     DiceRerollHandler.switchReroll()
@@ -208,14 +176,19 @@ class MainScreen:
     def on_loop(display):
         display.blit(MainScreen.background, (0,0))
         mouse = pygame.mouse.get_pos()
-        MainScreen.drawThrowButton(display,mouse)
-        MainScreen.drawNewTurnButton(display,mouse)
         MainScreen.drawDice(display,mouse)
         MainScreen.drawTaskTable(display)
         MainScreen.drawTaskIcon(display)
         MainScreen.drawTask(display)
-        MainScreen.drawCloseButton(display,mouse)
-        MainScreen.drawScoreButton(display,mouse)
+        MainScreen.drawPointsLabel(display)
+        MainScreen.quitButton.draw(display)
+        MainScreen.quitButton.mouseIsIn(mouse[0], mouse[1])
+        MainScreen.scoreBoardButton.draw(display)
+        MainScreen.scoreBoardButton.mouseIsIn(mouse[0], mouse[1])
+        MainScreen.finishButton.draw(display)
+        MainScreen.finishButton.mouseIsIn(mouse[0], mouse[1])
+        MainScreen.rerollButton.draw(display)
+        MainScreen.rerollButton.mouseIsIn(mouse[0], mouse[1])
         MainScreen.testButton.mouseIsIn(mouse[0], mouse[1])
         if(MainScreen.isShowScoreBoard):
             print("Score")
