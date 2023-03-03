@@ -34,7 +34,6 @@ class mainGameLoop:
     def on_execute():
         if mainGameLoop.on_init() == False:
             Game.currentState = GameState.FINISHED
- 
         while(Game.currentState != GameState.FINISHED):
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
@@ -44,6 +43,8 @@ class mainGameLoop:
                 elif Game.currentState == GameState.PLAYING:
                     MainScreen.on_event(event)
                 mainGameLoop.on_loop()
+            clock = pygame.time.Clock()
+            clock.tick(60)
         mainGameLoop.on_cleanup()
 
 mainGameLoop.on_execute()

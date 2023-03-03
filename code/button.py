@@ -36,3 +36,7 @@ class Button:
 
         self.scale = 1.0
         return False
+
+    def drawWithMouse(self,display,mouse):
+        self.mouseIsIn(mouse[0],mouse[1])
+        self.draw(display)
