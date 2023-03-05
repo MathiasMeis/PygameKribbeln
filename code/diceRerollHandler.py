@@ -1,6 +1,6 @@
 from dice import Dice
 import pygame
-from game import Game
+from kribbeln import Kribbeln
 
 class DiceRerollHandler:
 
@@ -39,9 +39,9 @@ class DiceRerollHandler:
 
     def handleKeyInput(key) -> None:
         if key == pygame.K_UP:
-            Game.playingDice.toReroll[DiceRerollHandler.index] = True
+            Kribbeln.playingDice.toReroll[DiceRerollHandler.index] = True
         elif key == pygame.K_DOWN:
-            Game.playingDice.toReroll[DiceRerollHandler.index] = False
+            Kribbeln.playingDice.toReroll[DiceRerollHandler.index] = False
         elif key == pygame.K_LEFT:
             DiceRerollHandler.lowerIndex()
         elif key == pygame.K_RIGHT:
@@ -51,7 +51,7 @@ class DiceRerollHandler:
         for i in range(6):
             xCoordinate : int = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
             yCoordinate : int = DiceRerollHandler.baseDicePos[1]
-            if(Game.playingDice.toReroll[i] == False):
+            if(Kribbeln.playingDice.toReroll[i] == False):
                 yCoordinate += 300
             if xCoordinate <= mouse[0] <= xCoordinate+100 and yCoordinate <= mouse[1] <= yCoordinate+100:
                 DiceRerollHandler.index = i
@@ -59,11 +59,11 @@ class DiceRerollHandler:
         return False
         
     def switchReroll():
-        Game.playingDice.switchReroll(DiceRerollHandler.index)
+        Kribbeln.playingDice.switchReroll(DiceRerollHandler.index)
 
     def getImagePath() -> str:
         indicator : str
-        if(Game.playingDice.toReroll[DiceRerollHandler.index] == True):
+        if(Kribbeln.playingDice.toReroll[DiceRerollHandler.index] == True):
             indicator = "Down"
         else:
             indicator = "Up"
@@ -76,7 +76,7 @@ class DiceRerollHandler:
         return [xPos,yPos]
     
     def getHeightAddition():
-        if(Game.playingDice.toReroll[DiceRerollHandler.index] == True):
+        if(Kribbeln.playingDice.toReroll[DiceRerollHandler.index] == True):
             return 0
         else:
             return 300

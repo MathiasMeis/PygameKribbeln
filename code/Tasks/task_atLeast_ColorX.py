@@ -25,8 +25,8 @@ class Task_atLeast_ColorX(Task): # mindestens n mal eine Farbe
         else:
             return False
         
-    def getInfo(self) -> str:
-        return f"Get the Color {self.colors[0].value} at least {Task.formatNumberOfInstances(self.requiredNumberOfInstances)}."
+    def getInfo(self) -> list[str]:
+        return [f"Get the color {self.colors[0].value} at least {Task.formatNumberOfInstances(self.requiredNumberOfInstances)}."]
 
 #from imageHelper import ImageHelper
     def getIconPaths(self) -> list[str]:

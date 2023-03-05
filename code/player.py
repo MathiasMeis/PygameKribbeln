@@ -1,21 +1,17 @@
-from task import Task
-from imageHelper import *
-
 class Player:
-    name : str
-    highestKribbelPoints : int
-    currentIndex : int
-
-    def __init__(self, defaultName : str): # hier sollte standartmäßig Spieler 1, Spieler 2 etc stehen, umbenennen dann über die funktion rename
+    def __init__(self, defaultName : str):
         self.name = defaultName
-        self.points = 0
         self.highestKribbelPoints = 0
 
-    def rename(self, newName):
+    def getName(self) -> str:
+        return self.name
+    
+    def rename(self, newName : str) -> None:
         self.name = newName
 
     def getHighestKribblePoints(self) -> int:
         return self.highestKribbelPoints
 
-    def getName(self):
-        return self.name
+    def setHighestKribblePoints(self, points : int) -> None:
+        self.highestKribbelPoints = points
+    

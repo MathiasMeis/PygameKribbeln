@@ -22,8 +22,8 @@ class Task_ColorX_greater_allOtherColors(Task):
            
         return True
 
-    def getInfo(self) -> str:
-        return f"Get the color {self.colors[0].value} more often than all the other colors."
+    def getInfo(self) -> list[str]:
+        return [f"Get the color {self.colors[0].value} more often than all the other colors."]
 
 
 #from imageHelper import ImageHelper

@@ -40,3 +40,7 @@ class Button:
     def drawWithMouse(self,display,mouse):
         self.mouseIsIn(mouse[0],mouse[1])
         self.draw(display)
+
+    def moveTo(self, xCoord, yCoord):
+        self.xCoordinate += xCoord
+        self.yCoordinate += yCoord

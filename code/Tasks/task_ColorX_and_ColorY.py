@@ -27,8 +27,8 @@ class Task_ColorX_and_ColorY(Task):
         else:
             return False
         
-    def getInfo(self) -> str:
-        return f"Get the color {self.colors[0].value} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)} and the color {self.colors[1].value} {Task.formatNumberOfInstances(self.requiredNumberOfSecondInstance)}."
+    def getInfo(self) -> list[str]:
+        return [f"Get the color {self.colors[0].value} {Task.formatNumberOfInstances(self.requiredNumberOfFirstInstance)} and the color {self.colors[1].value} {Task.formatNumberOfInstances(self.requiredNumberOfSecondInstance)}."]
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
         print()

@@ -13,7 +13,7 @@ class Task:
     def isCompleted(self, dice) -> bool: #override
         return False
     
-    def getInfo(self) -> str: #falls wir nen infopanel zum drüberhovern machen sollten, oben im default screen, nicht unbedingt scoreboard
+    def getInfo(self) -> list[str]: #falls wir nen infopanel zum drüberhovern machen sollten, oben im default screen, nicht unbedingt scoreboard
         return " "
 
     def getImage(self): # return zusammengebasteltes Bild mit fester größe
@@ -25,12 +25,12 @@ class Task:
         else: 
             return f"{number} times"
         
-    def getIconPaths() -> list[str]:
+    def getIconPaths(self) -> list[str]:
         return [ImageHelper.getImage("tasks", "error")]
 
 
-    def getIconDeviations() -> list[int]:
+    def getIconDeviations(self) -> list[int]:
         return [0]
     
-    def getIconWidth() -> int:
+    def getIconWidth(self) -> int:
         return 50

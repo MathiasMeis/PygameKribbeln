@@ -1,7 +1,7 @@
 # UI stuff, startbildschirm mit spieleranzahlauswahl, spielerbenennung, später ggfs modusauswahl
 import pygame
 from gameSetup import GameSetup
-from game import Game
+from kribbeln import Kribbeln
 from gamestate import GameState
 import os
 from messageBoard import MessageBoard
@@ -12,7 +12,8 @@ class StartingScreen:
     playerText = ''
     editPlayerLabel = -1
     yDeviation = 150
-    quitMessageBoard : MessageBoard = MessageBoard("Do you want to quit?", "QUIT", "CANCEL", True)
+    quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
+    quitMessageBoard : MessageBoard = MessageBoard(["Do you want to quit?"], hasButton=True, buttonText="QUIT", buttonFontColor=(255,255,255), buttenImageName="buttonRed")
     isShowQuitMessageBoard : bool = False
 
     size = weight, height = 1920, 1080 # 1920, 1080
@@ -34,51 +35,17 @@ class StartingScreen:
         else: 
             return -1
 
-    def drawMessageBoard(display):
-        message : str = StartingScreen.smallFont.render(StartingScreen.quitMessageBoard.messages, 1, (0, 0, 0))
-        baseX : int = 660
-        baseY : int = 390
-        buttonLabels : list[str] = StartingScreen.quitMessageBoard.getButtonLabels()
-        buttonDeviation : list[int] = StartingScreen.quitMessageBoard.getIconDeviation()
-        buttonIconPath : list[str] = StartingScreen.quitMessageBoard.getIconPaths()
-
-        display.blit(pygame.image.load(os.path.join(ImageHelper.getMessageBoardIcon())),(baseX, baseY))
-        display.blit(message, [baseX+20,baseY+50])
-        for i in range(StartingScreen.quitMessageBoard.getNumberOfButtons()):
-            display.blit(pygame.image.load(os.path.join(buttonIconPath[i])),(baseX+200+buttonDeviation[i], baseY+275))
-            if(i == 0 and StartingScreen.quitMessageBoard.firstButtonIsRed):
-                buttonLabel = StartingScreen.smallFont.render(buttonLabels[i], 1, (255, 255, 255))
-            else:
-                buttonLabel = StartingScreen.smallFont.render(buttonLabels[i], 1, (0, 0, 0))
-
-            centering : int = 100 - (buttonLabel.get_width() /2)
-            display.blit(buttonLabel, [baseX+200+buttonDeviation[i]+centering,baseY+275])
-
-
-    def isQuitInQuitMessageBoard(mouseX,mouseY):
-        if (710 <= mouseX <= 910):
-            if(665 <= mouseY <= 715):
-                return True
-        else: return False
-
-    def isCancelInQuitMessageBoard(mouseX,mouseY):
-        if (1010 <= mouseX <= 1210):
-            if(665 <= mouseY <= 715):
-                return True
-        else: return False
-
-
     def on_event(event): #TODO aufräumen, das geht auch anders
         if event.type == pygame.QUIT:
-           Game.currentState = GameState.FINISHED
+           Kribbeln.currentState = GameState.FINISHED
 
         if(StartingScreen.isShowQuitMessageBoard):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
-                if StartingScreen.isQuitInQuitMessageBoard(mouse[0],mouse[1]):
-                    pygame.quit()          
-                if StartingScreen.isCancelInQuitMessageBoard(mouse[0],mouse[1]):
+                if StartingScreen.quitMessageBoard.checkForMouseLocationOnCloseButton(mouse[0],mouse[1]):
                     StartingScreen.isShowQuitMessageBoard = False
+                if StartingScreen.quitMessageBoard.checkForMouseLocationOnButton(mouse[0],mouse[1]):
+                    pygame.quit()  
         else:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse = pygame.mouse.get_pos()
@@ -102,7 +69,9 @@ class StartingScreen:
                 if StartingScreen.startGameButton.mouseIsIn(mouse[0], mouse[1]):
                     if StartingScreen.editPlayerLabel != -1:
                         GameSetup.renamePlayer(StartingScreen.playerText)
-                    Game.currentState = GameState.PLAYING
+                    Kribbeln.currentState = GameState.PLAYING
+                if StartingScreen.quitButton.mouseIsIn(mouse[0], mouse[1]):
+                    StartingScreen.isShowQuitMessageBoard = True
             if event.type == pygame.KEYDOWN and StartingScreen.editPlayerLabel != -1:
                 if event.key == pygame.K_BACKSPACE:
                     StartingScreen.playerText =  StartingScreen.playerText[:-1]
@@ -125,4 +94,7 @@ class StartingScreen:
         if GameSetup.numberOfPlayers > 1:
             StartingScreen.removePlayerButton = Button(500,200+GameSetup.numberOfPlayers*150,250,100,"Remove Player")
             StartingScreen.removePlayerButton.drawWithMouse(display,mouse)
-        
+        StartingScreen.quitButton.mouseIsIn(mouse[0], mouse[1])
+        StartingScreen.quitButton.draw(display)
+        if StartingScreen.isShowQuitMessageBoard:
+            StartingScreen.quitMessageBoard.draw(display)

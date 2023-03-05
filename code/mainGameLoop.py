@@ -3,12 +3,13 @@ from pygame.locals import *
 import os
 import os.path
 from gamestate import GameState
-from game import Game
+from kribbeln import Kribbeln
+from endScreen import EndScreen
 from startingScreen import StartingScreen
 from mainScreen import MainScreen
 
 class mainGameLoop:
-    size = weight, height = 1920, 1080
+    size = weight, height = 1920, 1000
 
     def __init__(self):
         self._running = True
@@ -21,10 +22,12 @@ class mainGameLoop:
         mainGameLoop.display = pygame.display.set_mode(mainGameLoop.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
  
     def on_loop():
-        if Game.currentState == GameState.STARTING:
+        if Kribbeln.currentState == GameState.STARTING:
             StartingScreen.on_loop(mainGameLoop.display)
-        elif Game.currentState == GameState.PLAYING:
+        elif Kribbeln.currentState == GameState.PLAYING:
             MainScreen.on_loop(mainGameLoop.display)
+        elif Kribbeln.currentState == GameState.ENDING:
+            EndScreen.on_loop(mainGameLoop.display)
         pygame.display.flip()
 
     def on_cleanup():
@@ -33,15 +36,17 @@ class mainGameLoop:
     
     def on_execute():
         if mainGameLoop.on_init() == False:
-            Game.currentState = GameState.FINISHED
-        while(Game.currentState != GameState.FINISHED):
+            Kribbeln.currentState = GameState.FINISHED
+        while(Kribbeln.currentState != GameState.FINISHED):
             for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
-                    Game.currentState = GameState.FINISHED
-                if Game.currentState == GameState.STARTING:
+                    Kribbeln.currentState = GameState.FINISHED
+                if Kribbeln.currentState == GameState.STARTING:
                     StartingScreen.on_event(event)
-                elif Game.currentState == GameState.PLAYING:
+                elif Kribbeln.currentState == GameState.PLAYING:
                     MainScreen.on_event(event)
+                elif Kribbeln.currentState == GameState.ENDING:
+                    EndScreen.on_event(event)
                 mainGameLoop.on_loop()
             clock = pygame.time.Clock()
             clock.tick(60)

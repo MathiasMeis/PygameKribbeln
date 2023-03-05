@@ -1,39 +1,64 @@
-from player import Player
 from dice import Dice
-from task import Task
 from scoreBoard import ScoreBoard
+from gamestate import GameState
+from player import Player
 
-#hier passiert die ganze magie, aber nichts mit ui. Die Spielefunktionen
+
 class Kribbeln:
-    players : list
-    scoreboard : ScoreBoard 
-    currentDice : Dice
-    currentTask : Task
-    currentPlayer: int
-    currentRound: int
+    playingDice : Dice = Dice()
+    players : list[Player] = [Player("Player No. 1"), Player("Player No. 2"), Player("Player No. 3")]
+    scoreBoard : ScoreBoard = ScoreBoard(players)
+    numberOfPlayers : int = len(players)
+    currentPlayerIndex : int = 0
+    currentRound : int = 0
+    currentState : GameState = GameState.STARTING
+    remainingRorolls : int = 2
 
-    def __init__(self, playerList): #hier werden die im startinscreen erstellen spieler übergeben
-        self.players = playerList
-        self.scoreboard = ScoreBoard(self.players)
 
-    def getPlayer(self) -> Player:
-        return self.players[self.currentPlayer]
+    def lowerRerollCounter():
+        Kribbeln.remainingRorolls -= 1
 
-    def nextTurn(self):
-        self.currentDice.reroll()
+    def getRemainigRerolls() -> int:
+        return Kribbeln.remainingRorolls
 
-    def addScore(self):
-        if self.currentTask.isCompleted(self.currentDice):
-            self.scoreboard.setpoints(self.getPlayer(),self.currentRound,self.currentDice.getValues())
-        else: 
-            self.scoreboard.setpoints(self.getPlayer(),self.currentRound,0)
-    
-    def nextPlayer(self) -> Player:
-        self.currentPlayer = self.currentPlayer + 1
-        return self.getPlayer()
+    def hasRemainingRerolls() -> bool:
+        return Kribbeln.remainingRorolls > 0
 
-    def nextRound(self):
-        self.currentRound = self.currentRound +1
-        self.currentTask = self.scoreboard.getNextTask()
-        #sort players? wenn ja, dann muss currentindex auf currentPlayer geändert werden und bei der punktevergabe immer der index neu ermittelt werden muss. 
-    
+
+    def nextRound():
+        Kribbeln.scoreBoard.updateResultingPoints(Kribbeln.currentRound)
+        Kribbeln.scoreBoard.updateScore(Kribbeln.currentRound)
+        if (Kribbeln.currentRound < len(Kribbeln.scoreBoard.tasks) - 1):
+            Kribbeln.currentRound += 1
+        else:
+            Kribbeln.currentState = GameState.ENDING
+        # end of game
+
+
+    def nextPlayer():
+        Kribbeln.setPoints()
+        if (Kribbeln.currentPlayerIndex<Kribbeln.numberOfPlayers -1):
+            Kribbeln.currentPlayerIndex += 1
+        else:
+            Kribbeln.currentPlayerIndex = 0
+            Kribbeln.nextRound()
+        Kribbeln.remainingRorolls = 2 
+        Kribbeln.playingDice.enableAllDice()
+        Kribbeln.playingDice.reroll()
+
+    def setPoints():
+        Kribbeln.scoreBoard.setPoints(Kribbeln.playingDice, Kribbeln.currentPlayerIndex, Kribbeln.currentRound)
+        print(Kribbeln.scoreBoard.points)    
+
+
+    def getResultingPoints() -> int:
+        if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice)):
+            return Kribbeln.playingDice.getValues()
+        else:
+            return 0
+
+    def getNextPlayerName() -> str:
+        index = Kribbeln.currentPlayerIndex + 1
+        if index >= Kribbeln.numberOfPlayers:
+            index = 0
+        return Kribbeln.players[index].getName()

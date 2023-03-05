@@ -21,11 +21,11 @@ class Task_ColorXYZ_equal(Task):
         
         return False
         
-    def getInfo(self) -> str:
+    def getInfo(self) -> list[str]:
         if (self.equal):
-            return f"Get the colors {self.colors[0].value}, {self.colors[1].value} and {self.colors[2].value} equally often."
+            return [f"Get the colors {self.colors[0].value}, {self.colors[1].value} and {self.colors[2].value} equally often."]
         else:
-            return f"Don't get the colors {self.colors[0].value}, {self.colors[1].value} and {self.colors[2].value} equally often."
+            return [f"Don't get the colors {self.colors[0].value}, {self.colors[1].value} and {self.colors[2].value} equally often."]
 
     #from imageHelper import ImageHelper
     def getIconPaths(self) -> list[str]:

@@ -34,11 +34,8 @@ class Task_anyColor(Task): #  mal beliebige Farbe
                     isTrue = False
             return isTrue
         
-    def getInfo(self) -> str:
-        if (self.allowedToComplete):
-            return f"Get any Color {self.numberOfInstances} times."
-        else:
-            return f"Don't get any Color {self.numberOfInstances} times."
+    def getInfo(self) -> list[str]:
+        return [f"Get any Color {Task.formatNumberOfInstances(self.numberOfInstances)}."]
 
 
 #from imageHelper import ImageHelper
@@ -60,4 +57,7 @@ class Task_anyColor(Task): #  mal beliebige Farbe
             return [0,50,100,-25]
         
     def getIconWidth(self) -> int:
-            return 150
+            if self.allowedToComplete:
+                return 150
+            else:
+                return 200

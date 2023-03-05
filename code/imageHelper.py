@@ -4,6 +4,8 @@ import os
 
 
 class ImageHelper:
+    xCenter : int = 960
+
     def getDieBackgroundColor(color : Color) -> pygame.Surface:
         return ImageHelper.getImage("dice", f"dieColor{color.name}")
 

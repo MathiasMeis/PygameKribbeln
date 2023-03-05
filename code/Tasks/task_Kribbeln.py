@@ -1,4 +1,5 @@
 from dice import Dice
+from imageHelper import ImageHelper
 from task import Task
 
 #from player import Player
@@ -21,11 +22,15 @@ class Task_Kribbeln(Task): # 1 mal eine Farbe
     #    self.player = playerRef
 
 
-    def getInfo(self) -> str:
-        if (Task_Kribbeln.minimumPoints == 0):
-            return "Get as many points as you want. But you might need to top it later on."
-        else:
-            return f"Get at least {Task_Kribbeln.minimumPoints + 1} points."
+    def getInfo(self) -> list[str]:
+        return ["Get as many points as you want. If", "you already got points in a kribbeln task,", "you need to get even more points."]
 
-    def getImage(self): # return zusammengebasteltes Bild mit fester größe
-        print()
+    def getIconPaths(self) -> list[str]:
+        return [ImageHelper.getImage("tasks", "kribbeln")]
+
+
+    def getIconDeviations(self) -> list[int]:
+        return [0]
+    
+    def getIconWidth(self) -> int:
+        return 150

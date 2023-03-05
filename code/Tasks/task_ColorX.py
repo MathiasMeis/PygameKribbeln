@@ -25,8 +25,8 @@ class Task_ColorX(Task): # n mal eine Farbe
         else:
             return False
         
-    def getInfo(self) -> str:
-        return f"Get the Color {self.colors[0].value} {Task.formatNumberOfInstances(self.requiredNumberOfInstandes)}."
+    def getInfo(self) -> list[str]:
+        return [f"Get the color {self.colors[0].value} {Task.formatNumberOfInstances(self.requiredNumberOfInstandes)}."]
 
 
 
