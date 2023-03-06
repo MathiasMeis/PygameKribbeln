@@ -13,7 +13,6 @@ OPEN:
 - vertikales centering für die messages im MessageBoard
 - Tasks fixen, numberOfColors und Color XYZ equal noch fehlerhaft
 - in mainscreen die option anbieten, enable/disable all
-- scoreBoard.resultingPoints berücksichtigt noch nicht punktegleichheit
 - noRerollsLeft indicator als rerollButtonOverlay (zB roter strich der das wort reroll durchstreicht)
 - draw Dice(display mouse) aufteilen in draw(display) und checkForMouseInput(mouse) - ggfs in dice auslagern
 
@@ -28,6 +27,7 @@ WIP(Mathias):
 
 DONE:
 - MainScreen onEvent und checkForMouseInput zusammenlegen. mit zB "if button1.mouseIsIn(mouse) and event.type == MOUSEBUTTONDOWN: do sth" 
+- scoreBoard.resultingPoints berücksichtigt noch nicht punktegleichheit
 - kribbeln.py löschen und game.py umbenennen
 - punkte verteilung hinterlegen
 - im mainscreen ein Label für den aktuellen spieler(oben links)

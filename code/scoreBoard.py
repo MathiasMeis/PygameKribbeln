@@ -243,6 +243,15 @@ class ScoreBoard:
         self.closeButton.draw(display)
 
 
+    def getReducingPointsCausedByDuplicates(pairs, value, startIndex) -> int:
+        valueCounter : int = -1
+        for index in range(len(pairs)):
+            if index >= startIndex:
+                if pairs[index][0] == value:
+                    valueCounter += 1
+        return valueCounter
+
+
     def updateResultingPoints(self, roundIndex):
         pairs : list = []
 
@@ -253,7 +262,7 @@ class ScoreBoard:
         obtainablePoints : int = self.numberOfPlayers
         for index in range(self.numberOfPlayers):
             if (pairs[index][0] > 0):
-                self.resultingPoints[pairs[index][1]][roundIndex] = obtainablePoints
+                self.resultingPoints[pairs[index][1]][roundIndex] = obtainablePoints - ScoreBoard.getReducingPointsCausedByDuplicates(pairs, self.points[pairs[index][1]][roundIndex], index)
             else:
                 self.resultingPoints[pairs[index][1]][roundIndex] = 0
             obtainablePoints -= 1
