@@ -98,7 +98,8 @@ class ScoreBoard:
         return self.closeButton.mouseIsIn(xCoord, yCoord)
 
     def drawScores(self, display):
-        baseX : int = 1310-(self.width/2)
+        width : int = 150 * (self.numberOfPlayers + 1)
+        baseX : int = 960-(width/2) + 225
         baseY : int = 360
         xDeviation : int = 150
         font  = pygame.font.SysFont("comicsans", 20)
@@ -118,7 +119,8 @@ class ScoreBoard:
                     display.blit(scoreLabel, [xCoord-centering, baseY+yAddition])
 
     def drawResultingPoints(self, display):
-        baseX : int = 1360-(self.width/2)
+        width : int = 150 * (self.numberOfPlayers + 1)
+        baseX : int = 960-(width/2) +275
         baseY : int = 210
         xDeviation : int = 150
         yDeviation : int = 50
@@ -140,7 +142,8 @@ class ScoreBoard:
                     display.blit(pointLabel, [xCoord-centering, yCoord+yAddition])
 
     def drawPoints(self, display):
-        baseX : int = 1285-(self.width/2)
+        width : int = 150 * (self.numberOfPlayers + 1)
+        baseX : int = 960-(width/2)+200
         baseY : int = 210
         xDeviation : int = 150
         yDeviation : int = 50
@@ -162,7 +165,8 @@ class ScoreBoard:
                     display.blit(pointLabel, [xCoord-centering, yCoord+yAddition])
 
     def drawTasks(self, display):
-        baseX : int = 1160-(self.width/2)
+        width2 : int = 150 * (self.numberOfPlayers + 1)
+        baseX : int = 960-(width2/2)+75
         baseY : int = 225
         xDeviation : int = 150
         yDeviation : int = 50
@@ -200,12 +204,14 @@ class ScoreBoard:
 
 
     def drawPlayerLabel(self, display):
-        display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "userIcon"))),(1135-(self.width/2), 145))
+        width : int = 150 * (self.numberOfPlayers + 1)
+        baseX : int = 960 - (width/2) + 75
+        display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "userIcon"))),(baseX - 25, 145))
         font  = pygame.font.SysFont("comicsans", 20)
         for index in range(self.numberOfPlayers):
             playerLabel = font.render(self.players[index].getName(), 1, (0, 0, 0))
             centering : int = (150) - (playerLabel.get_width() /2)
-            display.blit(playerLabel, [1160-(self.width/2)+ (150*index)+centering,160])
+            display.blit(playerLabel, [baseX+ (150*index)+centering,160])
 
     def drawGitter(self, display):
         width : int = 150 * (self.numberOfPlayers + 1)
@@ -218,7 +224,8 @@ class ScoreBoard:
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "lastRow"))),(baseX+((diff*self.numberOfPlayers)), baseY))
 
     def drawScoreLabels(self, display):
-        baseX : int = 1085-(self.width/2)
+        width : int = 150 * (self.numberOfPlayers + 1)
+        baseX : int = 960-(width/2)
         baseY : int = 350
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "score"))),(baseX, baseY))
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "score"))),(baseX, baseY+200))

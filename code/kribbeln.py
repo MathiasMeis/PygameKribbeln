@@ -6,7 +6,7 @@ from player import Player
 
 class Kribbeln:
     playingDice : Dice = Dice()
-    players : list[Player] = [Player("Player No. 1"), Player("Player No. 2"), Player("Player No. 3")]
+    players : list[Player] = [Player("Player 1"), Player("Player 2"), Player("Player 3")]
     scoreBoard : ScoreBoard = ScoreBoard(players)
     numberOfPlayers : int = len(players)
     currentPlayerIndex : int = 0
@@ -24,6 +24,19 @@ class Kribbeln:
     def hasRemainingRerolls() -> bool:
         return Kribbeln.remainingRorolls > 0
 
+    def reinit() -> None:
+        Kribbeln.scoreBoard = ScoreBoard(Kribbeln.players)
+        Kribbeln.playingDice.reroll()
+
+
+
+    def addPlayer():
+        Kribbeln.numberOfPlayers += 1
+        Kribbeln.players.append(Player(f"Player {Kribbeln.numberOfPlayers}"))
+
+    def removePlayer(index):
+        Kribbeln.numberOfPlayers -= 1
+        Kribbeln.players.remove(Kribbeln.players[index])
 
     def nextRound():
         Kribbeln.scoreBoard.updateResultingPoints(Kribbeln.currentRound)

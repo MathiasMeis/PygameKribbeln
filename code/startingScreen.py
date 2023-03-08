@@ -9,92 +9,118 @@ from imageHelper import ImageHelper
 from button import Button
 
 class StartingScreen:
-    playerText = ''
-    editPlayerLabel = -1
-    yDeviation = 150
     quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
     quitMessageBoard : MessageBoard = MessageBoard(["Do you want to quit?"], hasButton=True, buttonText="QUIT", buttonFontColor=(255,255,255), buttenImageName="buttonRed")
     isShowQuitMessageBoard : bool = False
+    editingEnabled : bool = False
 
-    size = weight, height = 1920, 1080 # 1920, 1080
+    newPlayerName : str = ""
+
+    removeBaseX : int = 710
+    editBaseX : int = 1160
+    playerBaseX : int = 810
+    BaseY : int = 100
+    editingPlayerIndex : int = -1
+    size = weight, height = 1920, 1080
     background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), size)
 
     pygame.font.init()
     smallFont  = pygame.font.SysFont("comicsans", 30)
+    startGameButton = Button(810, 850, 300, 100,"Start Game", imageName="300x100White")
 
-    startGameButton = Button(600, 850, 400, 100,"Start Game")
-    addPlayerButton = Button(200,200+GameSetup.numberOfPlayers*150,200,100,'Add Player')
-    removePlayerButton = Button(300,500,250,100,"Remove Player")
-    editPlayerButton = Button(200, 200, 270, 100,"Player 1",color=(130,70,20))
+    editButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
+    denyEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
+    confirmsEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
+    removePlayerButtons : list[Button] = []
+    addPlayerButton : Button = Button(playerBaseX+125,BaseY + 12+(100*Kribbeln.numberOfPlayers),50,50," ", imageName="addPlayer")
+    editPlayerButtons : list[Button] = []
+    playerButtons : list[Button] = []
 
-    def inWhichEditBox(mouseX,mouseY) -> int:
-        for i in range(GameSetup.numberOfPlayers):   
-            [x,y,xL,yL] = [200, 200+i*StartingScreen.yDeviation, 270, 100]
-            if x <= mouseX <= x+xL and y <= mouseY <= y+yL: 
-                return i
-        else: 
-            return -1
+    def init():
+        StartingScreen.addPlayerButton : Button = Button(StartingScreen.playerBaseX+125,StartingScreen.BaseY + 12+(100*Kribbeln.numberOfPlayers),50,50," ", imageName="addPlayer")
+        StartingScreen.removePlayerButtons = []
+        StartingScreen.playerButtons = []
+        StartingScreen.editPlayerButtons = []
+        for index in range(len(Kribbeln.players)):
+            StartingScreen.playerButtons.append(Button(StartingScreen.playerBaseX,StartingScreen.BaseY+(100*index),300,75, f"{Kribbeln.players[index].getName()}", imageName="player"))
+            StartingScreen.removePlayerButtons.append(Button(StartingScreen.removeBaseX,StartingScreen.BaseY+12+(100*index),50,50," ", imageName="removePlayer"))
+            StartingScreen.editPlayerButtons.append(Button(StartingScreen.editBaseX, StartingScreen.BaseY+12+(100*index), 50, 50," ", imageName="playerEditStart"))
+
+
+
 
     def on_event(event): #TODO aufräumen, das geht auch anders
+        mouse = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
            Kribbeln.currentState = GameState.FINISHED
 
         if(StartingScreen.isShowQuitMessageBoard):
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse = pygame.mouse.get_pos()
-                if StartingScreen.quitMessageBoard.checkForMouseLocationOnCloseButton(mouse[0],mouse[1]):
-                    StartingScreen.isShowQuitMessageBoard = False
-                if StartingScreen.quitMessageBoard.checkForMouseLocationOnButton(mouse[0],mouse[1]):
-                    pygame.quit()  
-        else:
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse = pygame.mouse.get_pos()
-                editBox = StartingScreen.inWhichEditBox(mouse[0],mouse[1])
-                if editBox > -1:
-                    if StartingScreen.editPlayerLabel != editBox:
-                        if StartingScreen.editPlayerLabel != -1:
-                            GameSetup.renamePlayer(StartingScreen.playerText)
-                        StartingScreen.editPlayerLabel = editBox
-                        GameSetup.currentIndex = editBox
-                        StartingScreen.playerText = GameSetup.players[editBox].getName()
-                    else: 
-                        GameSetup.renamePlayer(StartingScreen.playerText)
-                        StartingScreen.editPlayerLabel = -1
-                if StartingScreen.addPlayerButton.mouseIsIn(mouse[0],mouse[1]):
-                    GameSetup.addPlayer()
-                if StartingScreen.removePlayerButton.mouseIsIn(mouse[0],mouse[1]) and GameSetup.numberOfPlayers > 1:
-                    GameSetup.removePlayer()
-                    if GameSetup.numberOfPlayers == StartingScreen.editPlayerLabel:
-                        StartingScreen.editPlayerLabel = -1
-                if StartingScreen.startGameButton.mouseIsIn(mouse[0], mouse[1]):
-                    if StartingScreen.editPlayerLabel != -1:
-                        GameSetup.renamePlayer(StartingScreen.playerText)
-                    Kribbeln.currentState = GameState.PLAYING
-                if StartingScreen.quitButton.mouseIsIn(mouse[0], mouse[1]):
-                    StartingScreen.isShowQuitMessageBoard = True
-            if event.type == pygame.KEYDOWN and StartingScreen.editPlayerLabel != -1:
+            if StartingScreen.quitMessageBoard.checkForMouseLocationOnCloseButton(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                StartingScreen.isShowQuitMessageBoard = False
+            if StartingScreen.quitMessageBoard.checkForMouseLocationOnButton(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.quit()  
+        elif(StartingScreen.editingEnabled):
+            if StartingScreen.denyEditButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                StartingScreen.newPlayerName = ""
+                StartingScreen.editingEnabled = False
+            if StartingScreen.confirmsEditButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                Kribbeln.players[StartingScreen.editingPlayerIndex].rename(StartingScreen.newPlayerName)
+                StartingScreen.playerButtons[StartingScreen.editingPlayerIndex].label = StartingScreen.newPlayerName
+                StartingScreen.newPlayerName = ""
+                StartingScreen.editingPlayerIndex = -1
+                StartingScreen.editingEnabled = False
+
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    StartingScreen.playerText =  StartingScreen.playerText[:-1]
+                    StartingScreen.newPlayerName =  StartingScreen.newPlayerName[:-1]
                 else:
-                    StartingScreen.playerText += event.unicode
+                    StartingScreen.newPlayerName += event.unicode
+        else:
+            if StartingScreen.editButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+            if StartingScreen.quitButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                StartingScreen.isShowQuitMessageBoard = True
+            if StartingScreen.startGameButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                Kribbeln.reinit()
+                Kribbeln.currentState = GameState.PLAYING
+            if Kribbeln.numberOfPlayers < 7 and StartingScreen.addPlayerButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                Kribbeln.addPlayer()
+                StartingScreen.init()
+            for index in range(len(StartingScreen.playerButtons)):
+                StartingScreen.playerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN
+                if StartingScreen.removePlayerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                    Kribbeln.removePlayer(index)
+                    StartingScreen.init()
+                    break
+                if StartingScreen.editPlayerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                    StartingScreen.editButton = Button(StartingScreen.playerBaseX,StartingScreen.BaseY+(100*(index)),300,75, f"{StartingScreen.newPlayerName}", imageName="playerEditing")
+                    StartingScreen.denyEditButton = Button(StartingScreen.editBaseX+30, StartingScreen.BaseY+12+(100*index),50,50, " ", imageName="playerEditDeny")
+                    StartingScreen.confirmsEditButton = Button(StartingScreen.editBaseX-30, StartingScreen.BaseY+12+(100*index),50,50, " ", imageName="playerEditConfirm")
+                    StartingScreen.editingPlayerIndex = index
+                    StartingScreen.editingEnabled = True
+
+
+    def drawElements(display):
+        StartingScreen.quitButton.draw(display)
+        StartingScreen.startGameButton.draw(display)
+        for i in range(len(StartingScreen.playerButtons)):
+            StartingScreen.playerButtons[i].draw(display)
+            if not StartingScreen.editingEnabled:
+                StartingScreen.removePlayerButtons[i].draw(display)
+                StartingScreen.editPlayerButtons[i].draw(display)
+        if StartingScreen.isShowQuitMessageBoard:
+            StartingScreen.quitMessageBoard.draw(display)
+        elif StartingScreen.editingEnabled:
+            StartingScreen.editButton.label = f"{StartingScreen.newPlayerName}"
+            StartingScreen.editButton.draw(display)
+            StartingScreen.denyEditButton.draw(display)
+            StartingScreen.confirmsEditButton.draw(display)
+        else:
+            if Kribbeln.numberOfPlayers < 7:
+                StartingScreen.addPlayerButton.draw(display)
+
+
 
     def on_loop(display):
         display.blit(StartingScreen.background, (0,0))
-        mouse = pygame.mouse.get_pos()
-        StartingScreen.startGameButton.drawWithMouse(display,mouse)
-        for i in range(GameSetup.numberOfPlayers):
-            if StartingScreen.editPlayerLabel == i:
-                StartingScreen.editPlayerButton = Button(200, 200+i*StartingScreen.yDeviation, 270, 100,StartingScreen.playerText,color=(130,70,20))
-                StartingScreen.editPlayerButton.draw(display)
-            else: 
-                PlayerButton = Button(200, 200+i*StartingScreen.yDeviation, 270, 100,GameSetup.players[i].getName())
-                PlayerButton.draw(display)
-        StartingScreen.addPlayerButton = Button(200,200+GameSetup.numberOfPlayers*150,200,100,'Add Player')
-        StartingScreen.addPlayerButton.drawWithMouse(display,mouse)
-        if GameSetup.numberOfPlayers > 1:
-            StartingScreen.removePlayerButton = Button(500,200+GameSetup.numberOfPlayers*150,250,100,"Remove Player")
-            StartingScreen.removePlayerButton.drawWithMouse(display,mouse)
-        StartingScreen.quitButton.mouseIsIn(mouse[0], mouse[1])
-        StartingScreen.quitButton.draw(display)
-        if StartingScreen.isShowQuitMessageBoard:
-            StartingScreen.quitMessageBoard.draw(display)
+        StartingScreen.drawElements(display)

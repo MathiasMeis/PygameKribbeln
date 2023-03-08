@@ -19,6 +19,7 @@ class mainGameLoop:
  
     def on_init():
         pygame.init()
+        StartingScreen.init()
         mainGameLoop.display = pygame.display.set_mode(mainGameLoop.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
  
     def on_loop():

@@ -24,6 +24,7 @@ class MainScreen:
     endScreenButton : Button = Button(100,150,300,100,"END GAME",imageName="300x100White") # for testing
     taskInfoButton : Button = Button(1300,0,50,50," ", imageName="taskInfo")
     rerollButton : Button = Button(100,400,300,100,"REROLL",imageName="300x100White")
+    disableRerollButton : Button = Button(100,400,300,100,"REROLL",imageName="buttonDisabled")
     finishButton : Button = Button(100,800,300,100,"FINISH",imageName="300x100White")
     quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
     scoreBoardButton : Button = Button(1760,200,300,100,"SCORE              ",imageName="300x100White")
@@ -129,6 +130,8 @@ class MainScreen:
             if MainScreen.finishButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.nextTurnMessageBoard = MessageBoard([f"You got {Kribbeln.getResultingPoints()} points.",f"Next player will be {Kribbeln.getNextPlayerName()}"], hasCloseButton=False, hasButton=True, buttonText="CONTINUE")
                 MainScreen.isShowNextTurnMessageBoard = True
+            if MainScreen.disableRerollButton.mouseIsIn(mouse[0], mouse[1]):
+                pass
             if MainScreen.rerollButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 if Kribbeln.hasRemainingRerolls():
                     Kribbeln.playingDice.reroll()
@@ -162,6 +165,8 @@ class MainScreen:
             MainScreen.taskInfoMessageBoard.draw(display)
         elif(MainScreen.isShowScoreBoard):
             Kribbeln.scoreBoard.drawAsOverlay(display)
+        if not Kribbeln.hasRemainingRerolls():
+            MainScreen.disableRerollButton.draw(display)
 
     def on_loop(display):
         display.blit(MainScreen.background, (0,0))

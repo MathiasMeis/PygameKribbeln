@@ -41,6 +41,10 @@ class Button:
         self.mouseIsIn(mouse[0],mouse[1])
         self.draw(display)
 
-    def moveTo(self, xCoord, yCoord):
+    def move(self, xCoord, yCoord):
         self.xCoordinate += xCoord
         self.yCoordinate += yCoord
+
+    def setPosition(self, xCoord, yCoord):
+        self.xCoordinate = xCoord
+        self.yCoordinate = yCoord
