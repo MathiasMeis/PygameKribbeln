@@ -6,7 +6,7 @@ class DiceRerollHandler:
 
     index: int = 0
 
-    baseDicePos : int = [550,420]
+    baseDicePos : int = [500,400]
     diceDistance : int = 200
 
     directionDown : bool = True
@@ -79,4 +79,4 @@ class DiceRerollHandler:
         if(Kribbeln.playingDice.toReroll[DiceRerollHandler.index] == True):
             return 0
         else:
-            return 300
+            return 400

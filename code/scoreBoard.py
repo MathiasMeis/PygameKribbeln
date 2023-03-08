@@ -20,7 +20,7 @@ class ScoreBoard:
     def __init__(self, players : list[Player]):
         self.players : list[Player]= players
         self.numberOfPlayers : int = len(self.players)
-        self.tasks : list[Task] = TaskHelper.getDefaultTasks() #change
+        self.tasks : list[Task] = TaskHelper.getEveryTask() #change
         self.points : list[list[int]] = self.getPointsTable()
         self.resultingPoints : list[list[int]] = self.getPointsTable()
         self.scores : list[list[int]] = self.getEmptyScores()

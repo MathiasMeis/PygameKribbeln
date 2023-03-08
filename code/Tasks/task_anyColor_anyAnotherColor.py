@@ -27,7 +27,7 @@ class Task_anyColor_anyAnotherColor(Task):
         return firstIsTrue and secondIsTrue
         
     def getInfo(self) -> list[str]:
-        return [f"Get any color {Task.formatNumberOfInstances(self.numberOfFirstInstance)} and another color {Task.formatNumberOfInstances(self.numberOfSecondInstance)}."]
+        return [f"Get any color {Task.formatNumberOfInstances(self.numberOfFirstInstance)}", f"and another color {Task.formatNumberOfInstances(self.numberOfSecondInstance)}."]
 
 #from imageHelper import ImageHelper
     def getIconPaths(self) -> list[str]:
