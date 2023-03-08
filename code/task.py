@@ -1,6 +1,7 @@
 from difficulty import Difficulty
 from color import Color
 from imageHelper import ImageHelper
+from player import Player
 
 # Oberklasse für alle Tasks, namensgebung für unterklassen noch fragwürdig
 # unterklassen sollten alle 4 mothoden überschreiben, letztere kann erstmal warten
@@ -10,7 +11,7 @@ class Task:
     def __init__(self, numberOfRequiredColors : int):
         self.colors : list[Color] = Color.getColors(numberOfRequiredColors)
 
-    def isCompleted(self, dice) -> bool: #override
+    def isCompleted(self, dice, player : Player) -> bool: #override
         return False
     
     def getInfo(self) -> list[str]: #falls wir nen infopanel zum drüberhovern machen sollten, oben im default screen, nicht unbedingt scoreboard

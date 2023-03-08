@@ -3,6 +3,7 @@ from dice import Dice
 from difficulty import Difficulty
 from task import Task
 from imageHelper import ImageHelper
+from player import Player
 
 
 class Task_anyColor(Task): #  mal beliebige Farbe
@@ -19,7 +20,7 @@ class Task_anyColor(Task): #  mal beliebige Farbe
             self.difficulty = Difficulty.HARD
             
 
-    def isCompleted(self, dice : Dice) -> bool:
+    def isCompleted(self, dice : Dice, player : Player) -> bool:
         allColors : list = Color.getAllColors()
         if(self.allowedToComplete):
             isTrue : bool = False

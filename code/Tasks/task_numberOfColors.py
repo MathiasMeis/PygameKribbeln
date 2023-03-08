@@ -3,6 +3,7 @@ from dice import Dice
 from difficulty import Difficulty
 from imageHelper import ImageHelper
 from task import Task
+from player import Player
 
 class Task_numberOfColors(Task): # 3 Farben
     def __init__(self, numberofAllowedColors : int):
@@ -10,7 +11,7 @@ class Task_numberOfColors(Task): # 3 Farben
         self.numberOfAllowedColors : int = numberofAllowedColors
         self.difficulty = Difficulty.MEDIUM
 
-    def isCompleted(self, dice : Dice) -> bool:
+    def isCompleted(self, dice : Dice, player : Player) -> bool:
         if (dice.getNumberOfColors() == self.numberOfAllowedColors):
             return True
         else:

@@ -45,7 +45,7 @@ class MainScreen:
         headerCentering : int = (150) - (pointsHeaderLabel.get_width() /2)
         display.blit(pointsHeaderLabel, [100+headerCentering,560])
         pointFont  = pygame.font.SysFont("comicsans", 70)
-        if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice)):
+        if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice,  Kribbeln.players[Kribbeln.currentPlayerIndex])):
             pointsLabel = pointFont.render(f"{Kribbeln.playingDice.getValues()}", 1, (0, 216, 36))
         else:
             pointsLabel = pointFont.render(f"{Kribbeln.playingDice.getValues()}", 1, (255, 0, 25))
@@ -95,7 +95,7 @@ class MainScreen:
 
 
     def drawTaskTable(display): # Final
-            isCompleted : bool = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice)
+            isCompleted : bool = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice, Kribbeln.players[Kribbeln.currentPlayerIndex])
             display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(560, -50))
             display.blit(pygame.image.load(os.path.join(ImageHelper.getTaskTable())),(560, -50))
 

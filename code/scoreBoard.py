@@ -74,25 +74,13 @@ class ScoreBoard:
             pointsTable.append(self.getPointList())
         return pointsTable
     
-    def setPointsForDefaultTask(self, dice : Dice, playerIndex : int, roundIndex : int):
+    def setPoints(self, dice : Dice, playerIndex : int, roundIndex : int):
         achievedPoints : int = 0
-        if (self.tasks[roundIndex].isCompleted(dice)):
+        if (self.tasks[roundIndex].isCompleted(dice, self.players[playerIndex])):
             achievedPoints = dice.getValues()
         self.points[playerIndex][roundIndex] = achievedPoints
-
-    def setPointsForKribbeln(self, dice : Dice, playerIndex : int, roundIndex : int):
-        achievedPoints : int = dice.getValues()
-        if (self.players[playerIndex].getHighestKribblePoints() < achievedPoints):
-            self.points[playerIndex][roundIndex] = achievedPoints
-            self.players[playerIndex].setHighestKribblePoints(achievedPoints)
-        else:
-            self.points[playerIndex][roundIndex] = 0
-
-    def setPoints(self, dice : Dice, playerIndex : int, roundIndex : int):
         if (TaskHelper.isKribbelnTask(self.tasks[roundIndex])):
-            self.setPointsForKribbeln(dice, playerIndex, roundIndex)
-        else:
-            self.setPointsForDefaultTask(dice, playerIndex, roundIndex)
+            self.players[playerIndex].setHighestKribblePoints(achievedPoints)
 
     def checkForMouseInput(self, xCoord, yCoord) -> bool:
         return self.closeButton.mouseIsIn(xCoord, yCoord)

@@ -13,5 +13,6 @@ class Player:
         return self.highestKribbelPoints
 
     def setHighestKribblePoints(self, points : int) -> None:
-        self.highestKribbelPoints = points
+        if points > self.highestKribbelPoints:
+            self.highestKribbelPoints = points
     

@@ -5,15 +5,11 @@ ALWAYS OPEN:
 
 
 OPEN:
-- im StartingScreen zugriff ändern auf Game.players
 - Task.getInfo() auf zu lange teilstings überprüfen, es einzelne elemente sind zu lang
-- taskCompletionIndicator, pointsTable und auch messageboard funktioniert nicht bei kribbeln, ggfs lösung durch isComleted(dice, player=None)
-- startinScreen on_event aufräumen
 - TaskHelper.getDefaultTasks umändern, dass direkt 2 elemente übergeben werden, sodass tasks nicht doppelt vorkommen können
 - vertikales centering für die messages im MessageBoard
 - Tasks fixen, numberOfColors und Color XYZ equal noch fehlerhaft
 - in mainscreen die option anbieten, enable/disable all
-- noRerollsLeft indicator als rerollButtonOverlay (zB roter strich der das wort reroll durchstreicht)
 - draw Dice(display mouse) aufteilen in draw(display) und checkForMouseInput(mouse) - ggfs in dice auslagern
 
 
@@ -26,13 +22,17 @@ WIP(Mathias):
 
 
 DONE:
+- taskCompletionIndicator, pointsTable und auch messageboard funktioniert nicht bei kribbeln, ggfs lösung durch isComleted(dice, player=None)
 - MainScreen onEvent und checkForMouseInput zusammenlegen. mit zB "if button1.mouseIsIn(mouse) and event.type == MOUSEBUTTONDOWN: do sth" 
 - scoreBoard.resultingPoints berücksichtigt noch nicht punktegleichheit
 - kribbeln.py löschen und game.py umbenennen
 - punkte verteilung hinterlegen
+- im StartingScreen zugriff ändern auf Game.players
+- noRerollsLeft indicator als rerollButtonOverlay (zB roter strich der das wort reroll durchstreicht)
 - im mainscreen ein Label für den aktuellen spieler(oben links)
 - Infobox für TaskInfo(echts neben oder in Taskanzeige(Tooltip)), öffnet dialog mit text Task.getInfos()
 - draw/isIn Methoden ggfs in Klassen auslagern
+- startinScreen on_event aufräumen
 - Enum "GameState" erstellen mit elementen "STARTING", "PLAYING", "FINISHED". also namen sind egal aber um die anzeige und die inputmöglichkeiten zu kontrollieren
 - taskInfo in eine liste aufteilen, sodass diese über mehrere zeilen ausgegeben werden können
 - players und gamestate in game verschieben

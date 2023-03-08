@@ -65,7 +65,7 @@ class Kribbeln:
 
 
     def getResultingPoints() -> int:
-        if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice)):
+        if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice, Kribbeln.players[Kribbeln.currentPlayerIndex])):
             return Kribbeln.playingDice.getValues()
         else:
             return 0

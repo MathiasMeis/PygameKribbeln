@@ -3,6 +3,7 @@ from dice import Dice
 from difficulty import Difficulty
 from task import Task
 from imageHelper import ImageHelper
+from player import Player
 
 
 class Task_ColorX_greater_allOtherColors(Task):
@@ -13,7 +14,7 @@ class Task_ColorX_greater_allOtherColors(Task):
 
 
         
-    def isCompleted(self, dice : Dice) -> bool:
+    def isCompleted(self, dice : Dice, player : Player) -> bool:
         remainingColors : list = Color.getAllColors()
         remainingColors.remove(self.colors[0])
         for i in range(len(remainingColors)-1):

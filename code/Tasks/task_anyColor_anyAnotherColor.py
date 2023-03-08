@@ -3,6 +3,7 @@ from dice import Dice
 from difficulty import Difficulty
 from task import Task
 from imageHelper import ImageHelper
+from player import Player
 
 
 class Task_anyColor_anyAnotherColor(Task):
@@ -13,7 +14,7 @@ class Task_anyColor_anyAnotherColor(Task):
         self.numberOfSecondInstance : int = second
         self.difficulty : Difficulty = Difficulty.MEDIUM
 
-    def isCompleted(self, dice : Dice) -> bool:
+    def isCompleted(self, dice : Dice, player : Player) -> bool:
         firstIsTrue : bool = False
         secondIsTrue : bool = False
         allColors : list = Color.getAllColors()

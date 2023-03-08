@@ -1,6 +1,7 @@
 from dice import Dice
 from imageHelper import ImageHelper
 from task import Task
+from player import Player
 
 #from player import Player
 
@@ -12,8 +13,8 @@ class Task_Kribbeln(Task): # 1 mal eine Farbe
     def __init__(self): #referenz auf player oder scoreboard
         super().__init__(0)
 
-    def isCompleted(self, dice : Dice) -> bool:
-        if (Task_Kribbeln.minimumPoints < dice.getValues()):
+    def isCompleted(self, dice : Dice, player : Player) -> bool:
+        if (player.getHighestKribblePoints() < dice.getValues()):
             return True
         else:
             return False
