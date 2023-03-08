@@ -57,11 +57,7 @@ class MainScreen:
         xCentering : int = remainingRerollsLabel.get_width() / 2
         display.blit(remainingRerollsLabel, [250-xCentering,720])
 
-    def drawDice(display,mouse):
-        MainScreen.drawDices(display)
-        MainScreen.drawDiceHover(display,mouse)
-
-    def drawDices(display):
+    def drawDice(display):
         for i in range(6):
             xCoordinate = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
             yCoordinate = DiceRerollHandler.baseDicePos[1]
@@ -69,11 +65,8 @@ class MainScreen:
                 yCoordinate += 300
             display.blit(pygame.image.load(os.path.join(Kribbeln.playingDice.allDice[i].getColorPath())),(xCoordinate, yCoordinate))
             display.blit(pygame.image.load(os.path.join(Kribbeln.playingDice.allDice[i].getValuePath())),(xCoordinate, yCoordinate))
-
-    def drawDiceHover(display, mouse):
-        DiceRerollHandler.setIndexWithMouse(mouse)
         display.blit(pygame.image.load(os.path.join(DiceRerollHandler.getImagePath())),DiceRerollHandler.getHoverPosition())
-
+        
     def drawTaskIcon(display):
         paths : list[str] = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getIconPaths()
         dev : list[int] = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getIconDeviations()
@@ -151,6 +144,7 @@ class MainScreen:
         MainScreen.drawTaskTable(display)
         MainScreen.drawTaskIcon(display)
         MainScreen.drawPointsLabel(display)
+        MainScreen.drawDice(display)
         MainScreen.endScreenButton.draw(display) # for testing
         MainScreen.taskInfoButton.draw(display)
         MainScreen.quitButton.draw(display)
@@ -171,5 +165,5 @@ class MainScreen:
     def on_loop(display):
         display.blit(MainScreen.background, (0,0))
         mouse = pygame.mouse.get_pos()
-        MainScreen.drawDice(display, mouse) # split
+        DiceRerollHandler.setIndexWithMouse(mouse)
         MainScreen.drawElements(display)
