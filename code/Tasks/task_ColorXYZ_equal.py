@@ -15,9 +15,9 @@ class Task_ColorXYZ_equal(Task):
 
 
     def isCompleted(self, dice : Dice, player : Player) -> bool:
-        if (dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[1]) == self.equal):
-            if (dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[2]) == self.equal):
-                if (dice.getNumberOfColorInstances(self.colors[1]) == dice.getNumberOfColorInstances(self.colors[2]) == self.equal):
+        if ((dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[1])) == self.equal):
+            if ((dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[2])) == self.equal):
+                if ((dice.getNumberOfColorInstances(self.colors[1]) == dice.getNumberOfColorInstances(self.colors[2])) == self.equal):
                     return True
         
         return False

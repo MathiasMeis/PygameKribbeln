@@ -54,7 +54,8 @@ class Dice:
     def getNumberOfColors(self) -> int:
         presentColors : list = []
         for i in range(6):
-            presentColors.append(self.allDice[i].getColor())
+            if (presentColors.count(self.allDice[i].getColor()) == 0):
+                presentColors.append(self.allDice[i].getColor())
         return len(presentColors)
 
 
