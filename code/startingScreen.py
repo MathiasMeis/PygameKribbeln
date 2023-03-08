@@ -43,8 +43,8 @@ class StartingScreen:
         StartingScreen.editPlayerButtons = []
         for index in range(len(Kribbeln.players)):
             StartingScreen.playerButtons.append(Button(StartingScreen.playerBaseX,StartingScreen.BaseY+(100*index),300,75, f"{Kribbeln.players[index].getName()}", imageName="player"))
-            StartingScreen.removePlayerButtons.append(Button(StartingScreen.removeBaseX,StartingScreen.BaseY+12+(100*index),50,50," ", imageName="removePlayer"))
             StartingScreen.editPlayerButtons.append(Button(StartingScreen.editBaseX, StartingScreen.BaseY+12+(100*index), 50, 50," ", imageName="playerEditStart"))
+            StartingScreen.removePlayerButtons.append(Button(StartingScreen.removeBaseX,StartingScreen.BaseY+12+(100*index),50,50," ", imageName="removePlayer"))
 
 
 
@@ -88,7 +88,7 @@ class StartingScreen:
                 StartingScreen.init()
             for index in range(len(StartingScreen.playerButtons)):
                 StartingScreen.playerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN
-                if StartingScreen.removePlayerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                if len(Kribbeln.players) != 1 and StartingScreen.removePlayerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                     Kribbeln.removePlayer(index)
                     StartingScreen.init()
                     break
@@ -106,8 +106,9 @@ class StartingScreen:
         for i in range(len(StartingScreen.playerButtons)):
             StartingScreen.playerButtons[i].draw(display)
             if not StartingScreen.editingEnabled:
-                StartingScreen.removePlayerButtons[i].draw(display)
                 StartingScreen.editPlayerButtons[i].draw(display)
+                if len(Kribbeln.players) != 1:
+                    StartingScreen.removePlayerButtons[i].draw(display)
         if StartingScreen.isShowQuitMessageBoard:
             StartingScreen.quitMessageBoard.draw(display)
         elif StartingScreen.editingEnabled:
