@@ -19,7 +19,7 @@ class Task_ColorX_greater_ColorY(Task):
             return False
         
     def getInfo(self) -> list[str]:
-        return [f"Get the color {self.colors[0].value} more often than the color {self.colors[1].value}."]
+        return [f"Get the color {self.colors[0].value} more often", f"than the color {self.colors[1].value}."]
 
 
 #from imageHelper import ImageHelper

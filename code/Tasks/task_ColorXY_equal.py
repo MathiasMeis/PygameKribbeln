@@ -22,9 +22,9 @@ class Task_ColorXY_equal(Task):
         
     def getInfo(self) -> list[str]:
         if (self.equal):
-            return [f"Get the color {self.colors[0].value} equally often as the color {self.colors[1].value}."]
+            return [f"Get the color {self.colors[0].value} equally", f"often as the color {self.colors[1].value}."]
         else:
-            return [f"Don't get the color {self.colors[0].value} equally often as the color {self.colors[1].value}."]
+            return [f"Don't get the color {self.colors[0].value} equally", f"often as the color {self.colors[1].value}."]
 
     def getIconPaths(self) -> list[str]:
         paths : list[str] = []

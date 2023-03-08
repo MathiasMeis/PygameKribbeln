@@ -29,6 +29,10 @@ class MainScreen:
     quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
     scoreBoardButton : Button = Button(1760,200,300,100,"SCORE              ",imageName="300x100White")
 
+    enableAllButton : Button = Button(1700,400,200,100,"ENABLE ALL",imageName="200x100White", fontSize=25)
+    disableAllButton : Button = Button(1700,800,200,100,"DISABLE ALL",imageName="200x100White", fontSize=25)
+
+
     size = weight, height = 1920, 1080
     background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("table")), size)
 
@@ -66,7 +70,7 @@ class MainScreen:
             xCoordinate = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
             yCoordinate = DiceRerollHandler.baseDicePos[1]
             if(Kribbeln.playingDice.toReroll[i] == False):
-                yCoordinate += 300
+                yCoordinate += 400
             display.blit(pygame.image.load(os.path.join(Kribbeln.playingDice.allDice[i].getColorPath())),(xCoordinate, yCoordinate))
             display.blit(pygame.image.load(os.path.join(Kribbeln.playingDice.allDice[i].getValuePath())),(xCoordinate, yCoordinate))
 
@@ -127,6 +131,10 @@ class MainScreen:
                 MainScreen.isShowQuitMessageBoard = True
             if MainScreen.scoreBoardButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowScoreBoard = True
+            if MainScreen.enableAllButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                Kribbeln.playingDice.enableAll()
+            if MainScreen.disableAllButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                Kribbeln.playingDice.disableAll()
             if MainScreen.finishButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.nextTurnMessageBoard = MessageBoard([f"You got {Kribbeln.getResultingPoints()} points.",f"Next player will be {Kribbeln.getNextPlayerName()}"], hasCloseButton=False, hasButton=True, buttonText="CONTINUE")
                 MainScreen.isShowNextTurnMessageBoard = True
@@ -157,6 +165,8 @@ class MainScreen:
         MainScreen.finishButton.draw(display)
         MainScreen.scoreBoardButton.draw(display)
         MainScreen.rerollButton.draw(display)
+        MainScreen.enableAllButton.draw(display)
+        MainScreen.disableAllButton.draw(display)
         if(MainScreen.isShowQuitMessageBoard):
             MainScreen.quitMessageBoard.draw(display)
         elif(MainScreen.isShowNextTurnMessageBoard):

@@ -32,6 +32,12 @@ class Dice:
         self.toReroll = [False, False, False, False, False, False]
         self.reroll()
 
+    def enableAll(self):
+        self.toReroll = [True, True, True, True, True, True]
+
+    def disableAll(self):
+        self.toReroll = [False, False, False, False, False, False]
+
     def enableReroll(self, number):
         self.toReroll[number] = True
 
