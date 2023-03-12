@@ -14,9 +14,7 @@ class EndScreen:
     pygame.font.init()
     smallFont  = pygame.font.SysFont("comicsans", 30)
 
-    replayButton = Button(200,870,200,100,"REPLAY")
-    newGameButton = Button(800, 870, 200, 100,"NEW GAME")
-    quitButton = Button(1400, 870, 200, 100,"QUIT")
+    quitButton = Button(810, 900, 300, 100,"QUIT", imageName="300x100White")
 
 
 
@@ -26,13 +24,7 @@ class EndScreen:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse = pygame.mouse.get_pos()
-            if EndScreen.replayButton.mouseIsIn(mouse[0],mouse[1]):
-                pass
-
-            if EndScreen.newGameButton.mouseIsIn(mouse[0],mouse[1]) and GameSetup.numberOfPlayers > 1:
-                pass
-
-            if EndScreen.quitButton.mouseIsIn(mouse[0], mouse[1]):
+            if EndScreen.quitButton.checkForMouseInput(mouse[0], mouse[1]):
                 Kribbeln.currentState = GameState.FINISHED
 
 
@@ -40,8 +32,6 @@ class EndScreen:
     def on_loop(display):
         display.blit(EndScreen.background, (0,0))
         mouse = pygame.mouse.get_pos()
-        EndScreen.replayButton.drawWithMouse(display,mouse)
-        EndScreen.newGameButton.drawWithMouse(display,mouse)
         EndScreen.quitButton.drawWithMouse(display,mouse)
         Kribbeln.scoreBoard.draw(display)
         

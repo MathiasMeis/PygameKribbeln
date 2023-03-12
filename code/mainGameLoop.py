@@ -9,8 +9,7 @@ from startingScreen import StartingScreen
 from mainScreen import MainScreen
 
 class mainGameLoop:
-    size = weight, height = 1920, 1000
-
+    size = weight, height = 1920, 1080
     def __init__(self):
         self._running = True
         self.display = None

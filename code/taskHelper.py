@@ -54,7 +54,7 @@ class TaskHelper:
         TaskHelper.hardTasks.append(Task_ColorX_greater_ColorY())
         TaskHelper.hardTasks.append(Task_ColorX_greater_allOtherColors())
 
-    def getTaskFromList(tasks : list):
+    def getTaskFromList(tasks : list[Task]):
         index : int = random.randint(0, len(tasks) - 1)
         return tasks[index]
 
@@ -62,18 +62,33 @@ class TaskHelper:
         TaskHelper.setUpEasyTasks()
         TaskHelper.setUpMediumTasks()
         TaskHelper.setUpHardTasks()
-        tasks : list = []
-        tasks.append(TaskHelper.getTaskFromList(TaskHelper.easyTasks))
-        tasks.append(TaskHelper.getTaskFromList(TaskHelper.easyTasks))
+        tasks : list[Task] = []
+        helper : list[Task] = TaskHelper.getTasks(2,TaskHelper.easyTasks)
+        tasks.append(helper[0])
+        tasks.append(helper[1])
         tasks.append(Task_Kribbeln())
-        tasks.append(TaskHelper.getTaskFromList(TaskHelper.mediumTasks))
-        tasks.append(TaskHelper.getTaskFromList(TaskHelper.mediumTasks))
+        helper : list[Task] = TaskHelper.getTasks(2,TaskHelper.mediumTasks)
+        tasks.append(helper[0])
+        tasks.append(helper[1])
         tasks.append(Task_Kribbeln())
-        tasks.append(TaskHelper.getTaskFromList(TaskHelper.hardTasks))
-        tasks.append(TaskHelper.getTaskFromList(TaskHelper.hardTasks))
+        helper : list[Task] = TaskHelper.getTasks(2,TaskHelper.hardTasks)
+        tasks.append(helper[0])
+        tasks.append(helper[1])
         tasks.append(Task_Kribbeln())
         tasks.append(Task_Kribbeln())
         return tasks
+
+    def getTasks(numberOfTasks, listOfTasks : list[Task]) -> list:
+        remainingTasks : list = listOfTasks
+        tasks : list = []
+        index : int 
+        for i in range(numberOfTasks):
+            index = random.randint(0, len(remainingTasks)-1)
+            tasks.append(remainingTasks[index])
+            remainingTasks.remove(remainingTasks[index])
+
+        return tasks
+
 
     def isKribbelnTask(task : Task) -> bool:
         if (isinstance(task, Task_Kribbeln)):

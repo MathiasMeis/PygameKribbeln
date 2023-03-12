@@ -28,7 +28,7 @@ class Button:
         yCentering : int = (self.height/2) - (buttonLabel.get_height() /2)
         display.blit(buttonLabel, [self.xCoordinate+xCentering,self.yCoordinate+yCentering])
 
-    def mouseIsIn(self, xCoord : int, yCoord : int) -> bool:
+    def checkForMouseInput(self, xCoord : int, yCoord : int) -> bool:
         if (self.xCoordinate-(self.width*(self.scale-1)) <= xCoord <= self.xCoordinate+(self.width*(self.scale))):
             if(self.yCoordinate-(self.height*(self.scale-1)) <= yCoord <= self.yCoordinate+(self.height*(self.scale))):
                 self.scale = 1.1
@@ -38,7 +38,7 @@ class Button:
         return False
 
     def drawWithMouse(self,display,mouse):
-        self.mouseIsIn(mouse[0],mouse[1])
+        self.checkForMouseInput(mouse[0],mouse[1])
         self.draw(display)
 
     def move(self, xCoord, yCoord):

@@ -46,13 +46,13 @@ class MessageBoard:
 
     def checkForMouseLocationOnButton(self, xCoord, yCoord):
         if (self.hasButton):
-            return self.button1.mouseIsIn(xCoord, yCoord)
+            return self.button1.checkForMouseInput(xCoord, yCoord)
         else:
             return False
         
     def checkForMouseLocationOnCloseButton(self, xCoord, yCoord):
         if (self.hasCloseButton):
-            return self.closeButton.mouseIsIn(xCoord, yCoord)
+            return self.closeButton.checkForMouseInput(xCoord, yCoord)
         else:
             return False
     

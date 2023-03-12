@@ -52,7 +52,7 @@ class DiceRerollHandler:
             xCoordinate : int = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
             yCoordinate : int = DiceRerollHandler.baseDicePos[1]
             if(Kribbeln.playingDice.toReroll[i] == False):
-                yCoordinate += 300
+                yCoordinate += 400
             if xCoordinate <= mouse[0] <= xCoordinate+100 and yCoordinate <= mouse[1] <= yCoordinate+100:
                 DiceRerollHandler.index = i
                 return True

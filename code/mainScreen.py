@@ -28,20 +28,11 @@ class MainScreen:
     finishButton : Button = Button(100,800,300,100,"FINISH",imageName="300x100White")
     quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
     scoreBoardButton : Button = Button(1760,200,300,100,"SCORE              ",imageName="300x100White")
-
     enableAllButton : Button = Button(1700,400,200,100,"ENABLE ALL",imageName="200x100White", fontSize=25)
     disableAllButton : Button = Button(1700,800,200,100,"DISABLE ALL",imageName="200x100White", fontSize=25)
 
-
     size = weight, height = 1920, 1080
     background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("table")), size)
-
-    def mightBeDieStateChange(x,y) -> bool:
-        if():
-            return True
-        else:
-            return False
-        
 
     def drawPointsLabel(display):
         display.blit(pygame.image.load(os.path.join(ImageHelper.getButton("300x200White"))),(100, 550))
@@ -90,57 +81,85 @@ class MainScreen:
         yCentering : int = 75 - (playerLabel.get_height() /2)
         display.blit(playerLabel, [xCentering,yCentering])
 
-
-    def drawTaskTable(display): # Final
+    def drawTaskTable(display):
             isCompleted : bool = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice, Kribbeln.players[Kribbeln.currentPlayerIndex])
             display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(560, -50))
             display.blit(pygame.image.load(os.path.join(ImageHelper.getTaskTable())),(560, -50))
 
-
-
     def on_event(event):
         mouse = pygame.mouse.get_pos()
         if(MainScreen.isShowQuitMessageBoard):
+            if event.type ==  pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    pygame.quit()          
+                if event.key == pygame.K_ESCAPE:
+                    MainScreen.isShowQuitMessageBoard = False
             if MainScreen.quitMessageBoard.checkForMouseLocationOnButton(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.quit()          
             if MainScreen.quitMessageBoard.checkForMouseLocationOnCloseButton(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowQuitMessageBoard = False
         elif(MainScreen.isShowNextTurnMessageBoard):
+            if event.type ==  pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                MainScreen.isShowNextTurnMessageBoard = False
+                Kribbeln.nextPlayer()
             if MainScreen.nextTurnMessageBoard.checkForMouseLocationOnButton(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowNextTurnMessageBoard = False
                 Kribbeln.nextPlayer()
         elif(MainScreen.isShowTaskInfo):
+            if event.type ==  pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
+                    MainScreen.isShowTaskInfo = False
             if MainScreen.taskInfoMessageBoard.checkForMouseLocationOnCloseButton(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowTaskInfo = False
         elif(MainScreen.isShowScoreBoard):
+            if event.type ==  pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
+                    MainScreen.isShowScoreBoard = False
             if Kribbeln.scoreBoard.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowScoreBoard = False
         else:
-            if MainScreen.endScreenButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN: # for testing
+            if event.type ==  pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if Kribbeln.hasRemainingRerolls():
+                        Kribbeln.playingDice.reroll()
+                        Kribbeln.lowerRerollCounter()
+                    else:
+                        MainScreen.nextTurnMessageBoard = MessageBoard([f"You got {Kribbeln.getResultingPoints()} points.",f"Next player will be {Kribbeln.getNextPlayerName()}"], hasCloseButton=False, hasButton=True, buttonText="CONTINUE")
+                        MainScreen.isShowNextTurnMessageBoard = True
+                if event.key == pygame.K_SPACE:
+                        MainScreen.nextTurnMessageBoard = MessageBoard([f"You got {Kribbeln.getResultingPoints()} points.",f"Next player will be {Kribbeln.getNextPlayerName()}"], hasCloseButton=False, hasButton=True, buttonText="CONTINUE")
+                        MainScreen.isShowNextTurnMessageBoard = True
+                if event.key == pygame.K_ESCAPE:
+                    MainScreen.isShowQuitMessageBoard = True
+                if event.key == pygame.K_TAB:
+                    MainScreen.isShowScoreBoard = True
+                if event.key == pygame.K_i:
+                    MainScreen.taskInfoMessageBoard = MessageBoard(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getInfo())
+                    MainScreen.isShowTaskInfo = True
+            if MainScreen.endScreenButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN: # for testing
                 Kribbeln.currentState = GameState.ENDING # for testing
-            if MainScreen.taskInfoButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.taskInfoButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowTaskInfo = False
-            if MainScreen.quitButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.quitButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowQuitMessageBoard = True
-            if MainScreen.scoreBoardButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.scoreBoardButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowScoreBoard = True
-            if MainScreen.enableAllButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.enableAllButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 Kribbeln.playingDice.enableAll()
-            if MainScreen.disableAllButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.disableAllButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 Kribbeln.playingDice.disableAll()
-            if MainScreen.finishButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.finishButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.nextTurnMessageBoard = MessageBoard([f"You got {Kribbeln.getResultingPoints()} points.",f"Next player will be {Kribbeln.getNextPlayerName()}"], hasCloseButton=False, hasButton=True, buttonText="CONTINUE")
                 MainScreen.isShowNextTurnMessageBoard = True
-            if MainScreen.disableRerollButton.mouseIsIn(mouse[0], mouse[1]):
-                pass
-            if MainScreen.rerollButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.disableRerollButton.checkForMouseInput(mouse[0], mouse[1]):
+                pass #only for visual effect
+            if MainScreen.rerollButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 if Kribbeln.hasRemainingRerolls():
                     Kribbeln.playingDice.reroll()
                     Kribbeln.lowerRerollCounter()
-            if MainScreen.taskInfoButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if MainScreen.taskInfoButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.taskInfoMessageBoard = MessageBoard(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getInfo())
                 MainScreen.isShowTaskInfo = True
-
             if DiceRerollHandler.setIndexWithMouse(mouse) and event.type == pygame.MOUSEBUTTONDOWN:
                 DiceRerollHandler.switchReroll()
             if event.type ==  pygame.KEYDOWN:

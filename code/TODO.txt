@@ -5,23 +5,23 @@ ALWAYS OPEN:
 
 
 OPEN:
-- Task.getInfo() auf zu lange teilstings überprüfen, es einzelne elemente sind zu lang
-- TaskHelper.getDefaultTasks umändern, dass direkt 2 elemente übergeben werden, sodass tasks nicht doppelt vorkommen können
 - vertikales centering für die messages im MessageBoard
-- Tasks fixen, numberOfColors und Color XYZ equal noch fehlerhaft
-- in mainscreen die option anbieten, enable/disable all
-- draw Dice(display mouse) aufteilen in draw(display) und checkForMouseInput(mouse) - ggfs in dice auslagern
 
 
 
 WIP(Jonas):
 
-
 WIP(Mathias):
-- im startingScreen buttons etc hinzufügen um spieler hinzuzufügen (bei bedarf auch schon die umbenennung der spielernamen ermöglichen, ist aber erstmal nicht relevant)
+- Tasks fixen, numberOfColors und Color XYZ equal noch fehlerhaft
+- draw Dice(display mouse) aufteilen in draw(display) und checkForMouseInput(mouse) - ggfs in dice auslagern
 
 
 DONE:
+- TaskHelper.getDefaultTasks umändern, dass direkt 2 elemente übergeben werden, sodass tasks nicht doppelt vorkommen können
+- tasten für interaktionen
+- Task.getInfo() auf zu lange teilstings überprüfen, es einzelne elemente sind zu lang
+- in mainscreen die option anbieten, enable/disable all
+- im startingScreen buttons etc hinzufügen um spieler hinzuzufügen (bei bedarf auch schon die umbenennung der spielernamen ermöglichen, ist aber erstmal nicht relevant)
 - taskCompletionIndicator, pointsTable und auch messageboard funktioniert nicht bei kribbeln, ggfs lösung durch isComleted(dice, player=None)
 - MainScreen onEvent und checkForMouseInput zusammenlegen. mit zB "if button1.mouseIsIn(mouse) and event.type == MOUSEBUTTONDOWN: do sth" 
 - scoreBoard.resultingPoints berücksichtigt noch nicht punktegleichheit

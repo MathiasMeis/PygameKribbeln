@@ -8,19 +8,11 @@ from button import Button
 import pygame
 import os.path
 
-
-#hier werden die aufgaben gesetzt. 2xeasy + kribbeln1 + 2xmedium + kribbeln2 + 2xhard + kribbeln3+4
-# ui stuff dafür könnte auch in ne andere klasse ausgelagert werden, wenns zu viel wird
-# ui sollte beim würfeln als overlay realisiert werden, könnte über hide() und show() getooglet werden
-# punkte können hier oder beim spieler selbst hinterlegt werden. letzteres könnte sinniger sein, wenn man die spielerreihenfolge variabel nach punkten macht
-# bzw ab 2tem kribbeln nach punkten schauen
 class ScoreBoard:
-
-
     def __init__(self, players : list[Player]):
         self.players : list[Player]= players
         self.numberOfPlayers : int = len(self.players)
-        self.tasks : list[Task] = TaskHelper.getEveryTask() #change
+        self.tasks : list[Task] = TaskHelper.getDefaultTasks() #change
         self.points : list[list[int]] = self.getPointsTable()
         self.resultingPoints : list[list[int]] = self.getPointsTable()
         self.scores : list[list[int]] = self.getEmptyScores()
@@ -33,7 +25,6 @@ class ScoreBoard:
         self.baseX : int = 960 - (self.width/2)
         self.baseY : int = 100
         self.closeButton : Button = Button(910+(self.width/2),100,50,50," ",imageName="close") #anpassen an scoreboardbreite
-
 
     def getEmptyScores(self):
         scoreTable : list[list[int]] = []
@@ -83,7 +74,7 @@ class ScoreBoard:
             self.players[playerIndex].setHighestKribblePoints(achievedPoints)
 
     def checkForMouseInput(self, xCoord, yCoord) -> bool:
-        return self.closeButton.mouseIsIn(xCoord, yCoord)
+        return self.closeButton.checkForMouseInput(xCoord, yCoord)
 
     def drawScores(self, display):
         width : int = 150 * (self.numberOfPlayers + 1)
@@ -156,7 +147,6 @@ class ScoreBoard:
         width2 : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960-(width2/2)+75
         baseY : int = 225
-        xDeviation : int = 150
         yDeviation : int = 50
         for taskIndex in range(len(self.tasks)):
             
@@ -170,26 +160,19 @@ class ScoreBoard:
                     yAddition = 50
                 else:
                     yAddition = 0
-
                 if width > 300:
                     scale = 0.4
                 elif width > 250:
                     scale = 0.5
                 elif width > 200:
                     scale = 0.6
-                    scale2 = 0.4
                 elif width > 150:
                     scale = 0.75
-                    scale2 = 0.7
                 else:
-                    scale2 = 1
                     scale = 1
                 pic =  pygame.image.load(os.path.join(paths[iconIndex]))
                 scaledPic = pygame.transform.scale(pic,(scale*pic.get_width(),scale*pic.get_height()))
                 display.blit(scaledPic,(baseX+(deviations[iconIndex]*scale)-(scale*width/2), baseY+(yDeviation*taskIndex)+yAddition-(scaledPic.get_height()/2)))
-            
-
-
 
     def drawPlayerLabel(self, display):
         width : int = 150 * (self.numberOfPlayers + 1)
@@ -219,9 +202,6 @@ class ScoreBoard:
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "score"))),(baseX, baseY+200))
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "score"))),(baseX, baseY+450))
 
-
-
-
     def draw(self, display):
         self.drawGitter(display)
         self.drawTasks(display)
@@ -231,12 +211,10 @@ class ScoreBoard:
         self.drawScores(display)
         self.drawScoreLabels(display)
 
-
     def drawAsOverlay(self, display):
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", self.imageName))),(self.baseX, self.baseY))
         self.draw(display)
         self.closeButton.draw(display)
-
 
     def getReducingPointsCausedByDuplicates(pairs, value, startIndex) -> int:
         valueCounter : int = -1
@@ -246,13 +224,10 @@ class ScoreBoard:
                     valueCounter += 1
         return valueCounter
 
-
     def updateResultingPoints(self, roundIndex):
         pairs : list = []
-
         for playerIndex in range(self.numberOfPlayers):
             pairs.append((self.points[playerIndex][roundIndex], playerIndex))
-
         pairs.sort(key=lambda item: item[0], reverse=True)
         obtainablePoints : int = self.numberOfPlayers
         for index in range(self.numberOfPlayers):

@@ -26,8 +26,8 @@ class StartingScreen:
 
     pygame.font.init()
     smallFont  = pygame.font.SysFont("comicsans", 30)
-    startGameButton = Button(810, 850, 300, 100,"Start Game", imageName="300x100White")
 
+    startGameButton = Button(810, 850, 300, 100,"Start Game", imageName="300x100White")
     editButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
     denyEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
     confirmsEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
@@ -60,10 +60,10 @@ class StartingScreen:
             if StartingScreen.quitMessageBoard.checkForMouseLocationOnButton(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.quit()  
         elif(StartingScreen.editingEnabled):
-            if StartingScreen.denyEditButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if StartingScreen.denyEditButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 StartingScreen.newPlayerName = ""
                 StartingScreen.editingEnabled = False
-            if StartingScreen.confirmsEditButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if StartingScreen.confirmsEditButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 Kribbeln.players[StartingScreen.editingPlayerIndex].rename(StartingScreen.newPlayerName)
                 StartingScreen.playerButtons[StartingScreen.editingPlayerIndex].label = StartingScreen.newPlayerName
                 StartingScreen.newPlayerName = ""
@@ -76,23 +76,23 @@ class StartingScreen:
                 else:
                     StartingScreen.newPlayerName += event.unicode
         else:
-            if StartingScreen.editButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if StartingScreen.editButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 pass
-            if StartingScreen.quitButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if StartingScreen.quitButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 StartingScreen.isShowQuitMessageBoard = True
-            if StartingScreen.startGameButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if StartingScreen.startGameButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 Kribbeln.reinit()
                 Kribbeln.currentState = GameState.PLAYING
-            if Kribbeln.numberOfPlayers < 7 and StartingScreen.addPlayerButton.mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+            if Kribbeln.numberOfPlayers < 7 and StartingScreen.addPlayerButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 Kribbeln.addPlayer()
                 StartingScreen.init()
             for index in range(len(StartingScreen.playerButtons)):
-                StartingScreen.playerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN
-                if len(Kribbeln.players) != 1 and StartingScreen.removePlayerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                StartingScreen.playerButtons[index].checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN
+                if len(Kribbeln.players) != 1 and StartingScreen.removePlayerButtons[index].checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                     Kribbeln.removePlayer(index)
                     StartingScreen.init()
                     break
-                if StartingScreen.editPlayerButtons[index].mouseIsIn(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
+                if StartingScreen.editPlayerButtons[index].checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                     StartingScreen.editButton = Button(StartingScreen.playerBaseX,StartingScreen.BaseY+(100*(index)),300,75, f"{StartingScreen.newPlayerName}", imageName="playerEditing")
                     StartingScreen.denyEditButton = Button(StartingScreen.editBaseX+30, StartingScreen.BaseY+12+(100*index),50,50, " ", imageName="playerEditDeny")
                     StartingScreen.confirmsEditButton = Button(StartingScreen.editBaseX-30, StartingScreen.BaseY+12+(100*index),50,50, " ", imageName="playerEditConfirm")
