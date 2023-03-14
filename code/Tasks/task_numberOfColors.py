@@ -1,12 +1,12 @@
-from color import Color
 from dice import Dice
 from difficulty import Difficulty
 from imageHelper import ImageHelper
-from task import Task
 from player import Player
+from task import Task
 
-class Task_numberOfColors(Task): # 3 Farben
-    def __init__(self, numberofAllowedColors : int):
+class Task_numberOfColors(Task):
+
+    def __init__(self, numberofAllowedColors : int) -> None:
         super().__init__(0)
         self.numberOfAllowedColors : int = numberofAllowedColors
         self.difficulty = Difficulty.MEDIUM
@@ -26,7 +26,6 @@ class Task_numberOfColors(Task): # 3 Farben
         if (self.numberOfAllowedColors == 3):
             paths.append(ImageHelper.getAnyColor("2"))
         paths.append(ImageHelper.getAnyColor("3"))
-            
         return paths
 
     def getIconDeviations(self) -> list[int]:

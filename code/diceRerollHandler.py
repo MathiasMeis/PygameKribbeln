@@ -1,14 +1,11 @@
-from dice import Dice
-import pygame
 from kribbeln import Kribbeln
+import pygame
 
 class DiceRerollHandler:
 
     index: int = 0
-
     baseDicePos : int = [500,400]
     diceDistance : int = 200
-
     directionDown : bool = True
 
     def lowerIndex():

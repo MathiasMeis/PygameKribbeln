@@ -1,24 +1,18 @@
-from color import Color
 from dice import Dice
 from difficulty import Difficulty
-from task import Task
 from imageHelper import ImageHelper
 from player import Player
+from task import Task
 
+class Task_ColorX(Task):
 
-class Task_ColorX(Task): # n mal eine Farbe
-    requiredNumberOfInstandes : int
-
-
-    def __init__(self, number):
+    def __init__(self, number) -> None:
         super().__init__(1)
         self.requiredNumberOfInstandes = number
         if(number < 3):
             self.difficulty = Difficulty.EASY
         else:
             self.difficulty = Difficulty.MEDIUM
-
-
 
     def isCompleted(self, dice : Dice, player : Player) -> bool:
         if (dice.getNumberOfColorInstances(self.colors[0]) == self.requiredNumberOfInstandes):
@@ -29,12 +23,6 @@ class Task_ColorX(Task): # n mal eine Farbe
     def getInfo(self) -> list[str]:
         return [f"Get the color {self.colors[0].value} {Task.formatNumberOfInstances(self.requiredNumberOfInstandes)}."]
 
-
-
-    def getImage(self): # return zusammengebasteltes Bild mit fester größe
-        print()
-
-
     def getIconPaths(self) -> list[str]:
         paths : list[str] = []
         if (self.requiredNumberOfInstandes == 0):
@@ -44,9 +32,7 @@ class Task_ColorX(Task): # n mal eine Farbe
             paths.append(ImageHelper.getTaskNumber(self.requiredNumberOfInstandes))
             paths.append(ImageHelper.getTaskOperator("*"))
             paths.append(ImageHelper.getTaskColor(self.colors[0]))
-            
         return paths
-
 
     def getIconDeviations(self) -> list[int]:
         if (self.requiredNumberOfInstandes == 0):

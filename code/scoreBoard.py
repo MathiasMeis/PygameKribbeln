@@ -1,18 +1,18 @@
-from task import Task
-from taskHelper import TaskHelper
-from player import Player
-from gameSetup import GameSetup
+from button import Button
 from dice import Dice
 from imageHelper import ImageHelper
-from button import Button
-import pygame
+from player import Player
+from task import Task
+from taskHelper import TaskHelper
 import os.path
+import pygame
 
 class ScoreBoard:
-    def __init__(self, players : list[Player]):
+    
+    def __init__(self, players : list[Player]) -> None:
         self.players : list[Player]= players
         self.numberOfPlayers : int = len(self.players)
-        self.tasks : list[Task] = TaskHelper.getDefaultTasks() #change
+        self.tasks : list[Task] = TaskHelper.getDefaultTasks()
         self.points : list[list[int]] = self.getPointsTable()
         self.resultingPoints : list[list[int]] = self.getPointsTable()
         self.scores : list[list[int]] = self.getEmptyScores()
@@ -24,15 +24,15 @@ class ScoreBoard:
             self.width : int = 1300
         self.baseX : int = 960 - (self.width/2)
         self.baseY : int = 100
-        self.closeButton : Button = Button(910+(self.width/2),100,50,50," ",imageName="close") #anpassen an scoreboardbreite
+        self.closeButton : Button = Button(910+(self.width/2),100,50,50," ",imageName="close")
 
-    def getEmptyScores(self):
+    def getEmptyScores(self) -> list[list[int]]:
         scoreTable : list[list[int]] = []
         for _ in range(self.numberOfPlayers):
             scoreTable.append([-1, -1, -1])
         return scoreTable
 
-    def updateScore(self, roundIndex):
+    def updateScore(self, roundIndex) -> None:
         if (roundIndex >= 2):
             for playerIndex in range(self.numberOfPlayers):
                 self.scores[playerIndex][0] = 0
@@ -65,7 +65,7 @@ class ScoreBoard:
             pointsTable.append(self.getPointList())
         return pointsTable
     
-    def setPoints(self, dice : Dice, playerIndex : int, roundIndex : int):
+    def setPoints(self, dice : Dice, playerIndex : int, roundIndex : int) -> None:
         achievedPoints : int = 0
         if (self.tasks[roundIndex].isCompleted(dice, self.players[playerIndex])):
             achievedPoints = dice.getValues()
@@ -76,7 +76,7 @@ class ScoreBoard:
     def checkForMouseInput(self, xCoord, yCoord) -> bool:
         return self.closeButton.checkForMouseInput(xCoord, yCoord)
 
-    def drawScores(self, display):
+    def drawScores(self, display) -> None:
         width : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960-(width/2) + 225
         baseY : int = 360
@@ -97,7 +97,7 @@ class ScoreBoard:
                     centering : int = (scoreLabel.get_width() /2)
                     display.blit(scoreLabel, [xCoord-centering, baseY+yAddition])
 
-    def drawResultingPoints(self, display):
+    def drawResultingPoints(self, display) -> None:
         width : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960-(width/2) +275
         baseY : int = 210
@@ -120,7 +120,7 @@ class ScoreBoard:
                     centering : int = (pointLabel.get_width() /2)
                     display.blit(pointLabel, [xCoord-centering, yCoord+yAddition])
 
-    def drawPoints(self, display):
+    def drawPoints(self, display) -> None:
         width : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960-(width/2)+200
         baseY : int = 210
@@ -143,13 +143,12 @@ class ScoreBoard:
                     centering : int = (pointLabel.get_width() /2)
                     display.blit(pointLabel, [xCoord-centering, yCoord+yAddition])
 
-    def drawTasks(self, display):
+    def drawTasks(self, display) -> None:
         width2 : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960-(width2/2)+75
         baseY : int = 225
         yDeviation : int = 50
         for taskIndex in range(len(self.tasks)):
-            
             paths : list[str] = self.tasks[taskIndex].getIconPaths()
             deviations : list[int] = self.tasks[taskIndex].getIconDeviations()
             width : int = self.tasks[taskIndex].getIconWidth()
@@ -174,7 +173,7 @@ class ScoreBoard:
                 scaledPic = pygame.transform.scale(pic,(scale*pic.get_width(),scale*pic.get_height()))
                 display.blit(scaledPic,(baseX+(deviations[iconIndex]*scale)-(scale*width/2), baseY+(yDeviation*taskIndex)+yAddition-(scaledPic.get_height()/2)))
 
-    def drawPlayerLabel(self, display):
+    def drawPlayerLabel(self, display) -> None:
         width : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960 - (width/2) + 75
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "userIcon"))),(baseX - 25, 145))
@@ -184,7 +183,7 @@ class ScoreBoard:
             centering : int = (150) - (playerLabel.get_width() /2)
             display.blit(playerLabel, [baseX+ (150*index)+centering,160])
 
-    def drawGitter(self, display):
+    def drawGitter(self, display) -> None:
         width : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960 - (width/2)
         baseY : int = self.baseY + 50
@@ -194,7 +193,7 @@ class ScoreBoard:
             display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "midRow"))),(diff+baseX+(diff*index), baseY))
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "lastRow"))),(baseX+((diff*self.numberOfPlayers)), baseY))
 
-    def drawScoreLabels(self, display):
+    def drawScoreLabels(self, display) -> None:
         width : int = 150 * (self.numberOfPlayers + 1)
         baseX : int = 960-(width/2)
         baseY : int = 350
@@ -202,7 +201,7 @@ class ScoreBoard:
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "score"))),(baseX, baseY+200))
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", "score"))),(baseX, baseY+450))
 
-    def draw(self, display):
+    def draw(self, display) -> None:
         self.drawGitter(display)
         self.drawTasks(display)
         self.drawPlayerLabel(display)
@@ -211,7 +210,7 @@ class ScoreBoard:
         self.drawScores(display)
         self.drawScoreLabels(display)
 
-    def drawAsOverlay(self, display):
+    def drawAsOverlay(self, display) -> None:
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("scoreBoard", self.imageName))),(self.baseX, self.baseY))
         self.draw(display)
         self.closeButton.draw(display)
@@ -224,7 +223,7 @@ class ScoreBoard:
                     valueCounter += 1
         return valueCounter
 
-    def updateResultingPoints(self, roundIndex):
+    def updateResultingPoints(self, roundIndex) -> None:
         pairs : list = []
         for playerIndex in range(self.numberOfPlayers):
             pairs.append((self.points[playerIndex][roundIndex], playerIndex))

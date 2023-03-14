@@ -1,11 +1,12 @@
-import pygame
-import os
-from kribbeln import Kribbeln
-from gamestate import GameState
-from diceRerollHandler import DiceRerollHandler
-from imageHelper import ImageHelper
 from button import Button
+from diceRerollHandler import DiceRerollHandler
+from gamestate import GameState
+from imageHelper import ImageHelper
+from kribbeln import Kribbeln
 from messageBoard import MessageBoard
+from taskHelper import TaskHelper
+import os
+import pygame
 
 class MainScreen:
     taskInfoMessageBoard : MessageBoard
@@ -17,42 +18,42 @@ class MainScreen:
     isShowTaskInfo : bool = False
     isShowScoreBoard : bool = False
 
-    pygame.font.init()
-    font  = pygame.font.SysFont("comicsans", 70)
-    smallFont  = pygame.font.SysFont("comicsans", 30)
-
-    endScreenButton : Button = Button(100,150,300,100,"END GAME",imageName="300x100White") # for testing
     taskInfoButton : Button = Button(1300,0,50,50," ", imageName="taskInfo")
     rerollButton : Button = Button(100,400,300,100,"REROLL",imageName="300x100White")
     disableRerollButton : Button = Button(100,400,300,100,"REROLL",imageName="buttonDisabled")
     finishButton : Button = Button(100,800,300,100,"FINISH",imageName="300x100White")
     quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
     scoreBoardButton : Button = Button(1760,200,300,100,"SCORE              ",imageName="300x100White")
-    enableAllButton : Button = Button(1700,400,200,100,"ENABLE ALL",imageName="200x100White", fontSize=25)
-    disableAllButton : Button = Button(1700,800,200,100,"DISABLE ALL",imageName="200x100White", fontSize=25)
+    enableAllButton : Button = Button(1700,400,200,100,"KEEP NONE",imageName="200x100White", fontSize=25)
+    disableAllButton : Button = Button(1700,800,200,100,"KEEP ALL",imageName="200x100White", fontSize=25)
 
+    pygame.font.init()
+    font  = pygame.font.SysFont("comicsans", 30)
     size = weight, height = 1920, 1080
     background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("table")), size)
 
-    def drawPointsLabel(display):
+    def drawPointsLabel(display) -> None:
+        smallFont  = pygame.font.SysFont("comicsans", 15)
+        pointFont  = pygame.font.SysFont("comicsans", 70)
         display.blit(pygame.image.load(os.path.join(ImageHelper.getButton("300x200White"))),(100, 550))
-        pointsHeaderLabel = MainScreen.smallFont.render("POINTS:", 1, (0, 0, 0))
+        pointsHeaderLabel = MainScreen.font.render("POINTS:", 1, (0, 0, 0))
         headerCentering : int = (150) - (pointsHeaderLabel.get_width() /2)
         display.blit(pointsHeaderLabel, [100+headerCentering,560])
-        pointFont  = pygame.font.SysFont("comicsans", 70)
         if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice,  Kribbeln.players[Kribbeln.currentPlayerIndex])):
             pointsLabel = pointFont.render(f"{Kribbeln.playingDice.getValues()}", 1, (0, 216, 36))
         else:
             pointsLabel = pointFont.render(f"{Kribbeln.playingDice.getValues()}", 1, (255, 0, 25))
         centering : int = (150) - (pointsLabel.get_width() /2)
         display.blit(pointsLabel, [100+centering,600])
-
-        font  = pygame.font.SysFont("comicsans", 15)
-        remainingRerollsLabel = font.render(f"Remaining rerolls: {Kribbeln.getRemainigRerolls()}", 1, (0, 0, 0))
+        if (TaskHelper.isKribbelnTask(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound])):
+            minimumPointsLabel = smallFont.render(f"You need at least {Kribbeln.players[Kribbeln.currentPlayerIndex].getHighestKribblePoints() + 1} points.", 1, (0, 0, 0))
+            minimumPointsCentering : int = minimumPointsLabel.get_width() / 2
+            display.blit(minimumPointsLabel, [250-minimumPointsCentering,700])
+        remainingRerollsLabel = smallFont.render(f"Remaining rerolls: {Kribbeln.getRemainigRerolls()}", 1, (0, 0, 0))
         xCentering : int = remainingRerollsLabel.get_width() / 2
         display.blit(remainingRerollsLabel, [250-xCentering,720])
 
-    def drawDice(display):
+    def drawDice(display) -> None:
         for i in range(6):
             xCoordinate = DiceRerollHandler.baseDicePos[0] + i*DiceRerollHandler.diceDistance
             yCoordinate = DiceRerollHandler.baseDicePos[1]
@@ -62,7 +63,7 @@ class MainScreen:
             display.blit(pygame.image.load(os.path.join(Kribbeln.playingDice.allDice[i].getValuePath())),(xCoordinate, yCoordinate))
         display.blit(pygame.image.load(os.path.join(DiceRerollHandler.getImagePath())),DiceRerollHandler.getHoverPosition())
         
-    def drawTaskIcon(display):
+    def drawTaskIcon(display) -> None:
         paths : list[str] = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getIconPaths()
         dev : list[int] = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getIconDeviations()
         iconWidth : int = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getIconWidth()
@@ -73,7 +74,7 @@ class MainScreen:
             pic = pygame.transform.scale(OGpic,(width,hight))
             display.blit(pic,((960-iconWidth)+2*dev[i], 20))
         
-    def drawCurrentPlayerLabel(display):
+    def drawCurrentPlayerLabel(display) -> None:
         display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("labels", "playerLabel"))),(0, 0))
         cFont  = pygame.font.SysFont("comicsans", 40)
         playerLabel = cFont.render(Kribbeln.players[Kribbeln.currentPlayerIndex].getName(), 1, (0, 0, 0))
@@ -81,12 +82,19 @@ class MainScreen:
         yCentering : int = 75 - (playerLabel.get_height() /2)
         display.blit(playerLabel, [xCentering,yCentering])
 
-    def drawTaskTable(display):
+    def drawKeepingDiceArea(display) -> None:
+        display.blit(pygame.image.load(os.path.join(ImageHelper.getImage("dice", "keepDiceArea"))),(450, 650))
+        font  = pygame.font.SysFont("comicsans", 40)
+        label = font.render("dice to keep:", 1, (255, 255, 255))
+        xCentering : int = 1050 - (label.get_width() /2)
+        display.blit(label, [xCentering,980])
+
+    def drawTaskTable(display) -> None:
             isCompleted : bool = Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice, Kribbeln.players[Kribbeln.currentPlayerIndex])
             display.blit(pygame.image.load(os.path.join(ImageHelper.getCompletionIndicator(isCompleted))),(560, -50))
             display.blit(pygame.image.load(os.path.join(ImageHelper.getTaskTable())),(560, -50))
 
-    def on_event(event):
+    def on_event(event) -> None:
         mouse = pygame.mouse.get_pos()
         if(MainScreen.isShowQuitMessageBoard):
             if event.type ==  pygame.KEYDOWN:
@@ -136,8 +144,6 @@ class MainScreen:
                 if event.key == pygame.K_i:
                     MainScreen.taskInfoMessageBoard = MessageBoard(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].getInfo())
                     MainScreen.isShowTaskInfo = True
-            if MainScreen.endScreenButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN: # for testing
-                Kribbeln.currentState = GameState.ENDING # for testing
             if MainScreen.taskInfoButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 MainScreen.isShowTaskInfo = False
             if MainScreen.quitButton.checkForMouseInput(mouse[0], mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
@@ -165,14 +171,15 @@ class MainScreen:
             if event.type ==  pygame.KEYDOWN:
                 if (DiceRerollHandler.isArrowKey(event.key)):
                     DiceRerollHandler.handleKeyInput(event.key)
+            DiceRerollHandler.setIndexWithMouse(mouse)
 
-    def drawElements(display):
+    def drawElements(display) -> None:
+        MainScreen.drawKeepingDiceArea(display)
         MainScreen.drawCurrentPlayerLabel(display)
         MainScreen.drawTaskTable(display)
         MainScreen.drawTaskIcon(display)
         MainScreen.drawPointsLabel(display)
         MainScreen.drawDice(display)
-        MainScreen.endScreenButton.draw(display) # for testing
         MainScreen.taskInfoButton.draw(display)
         MainScreen.quitButton.draw(display)
         MainScreen.finishButton.draw(display)
@@ -191,8 +198,7 @@ class MainScreen:
         if not Kribbeln.hasRemainingRerolls():
             MainScreen.disableRerollButton.draw(display)
 
-    def on_loop(display):
+    def on_loop(display) -> None:
         display.blit(MainScreen.background, (0,0))
         mouse = pygame.mouse.get_pos()
-        DiceRerollHandler.setIndexWithMouse(mouse)
         MainScreen.drawElements(display)

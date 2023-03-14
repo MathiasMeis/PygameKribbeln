@@ -1,14 +1,13 @@
 from color import Color
 from dice import Dice
 from difficulty import Difficulty
-from task import Task
 from imageHelper import ImageHelper
 from player import Player
-
+from task import Task
 
 class Task_anyColor_anyAnotherColor(Task):
 
-    def __init__(self, first : int, second : int):
+    def __init__(self, first : int, second : int) -> None:
         super().__init__(0)
         self.numberOfFirstInstance : int = first
         self.numberOfSecondInstance : int = second
@@ -23,13 +22,11 @@ class Task_anyColor_anyAnotherColor(Task):
                 firstIsTrue = True
             elif (dice.getNumberOfColorInstances(allColors[i]) == self.numberOfSecondInstance):
                 secondIsTrue = True
-
         return firstIsTrue and secondIsTrue
         
     def getInfo(self) -> list[str]:
         return [f"Get any color {Task.formatNumberOfInstances(self.numberOfFirstInstance)}", f"and another color {Task.formatNumberOfInstances(self.numberOfSecondInstance)}."]
 
-#from imageHelper import ImageHelper
     def getIconPaths(self) -> list[str]:
         paths : list[str] = []
         paths.append(ImageHelper.getTaskNumber(self.numberOfFirstInstance))
@@ -39,9 +36,7 @@ class Task_anyColor_anyAnotherColor(Task):
         paths.append(ImageHelper.getTaskNumber(self.numberOfSecondInstance))
         paths.append(ImageHelper.getTaskOperator("*"))
         paths.append(ImageHelper.getAnyColor("anyOther"))
-
         return paths
-
 
     def getIconDeviations(self) -> list[int]:
             return [0,50,100,150,200,250,300]

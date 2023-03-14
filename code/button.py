@@ -1,6 +1,6 @@
 from imageHelper import ImageHelper
-import pygame
 import os.path
+import pygame
 
 class Button:
 
@@ -20,7 +20,6 @@ class Button:
         OGpic = pygame.image.load(os.path.join(self.imagePath))
         pic = pygame.transform.scale(OGpic,(self.width*self.scale,self.height*self.scale))
         display.blit(pic,(self.xCoordinate-(self.width*(halfScale)), self.yCoordinate-(self.height*(halfScale))))
-
         pygame.font.init()
         xfont  = pygame.font.SysFont("comicsans", int(self.fontSize*self.scale))
         buttonLabel = xfont.render(self.label, 1, self.color)
@@ -33,18 +32,5 @@ class Button:
             if(self.yCoordinate-(self.height*(self.scale-1)) <= yCoord <= self.yCoordinate+(self.height*(self.scale))):
                 self.scale = 1.1
                 return True
-
         self.scale = 1.0
         return False
-
-    def drawWithMouse(self,display,mouse):
-        self.checkForMouseInput(mouse[0],mouse[1])
-        self.draw(display)
-
-    def move(self, xCoord, yCoord):
-        self.xCoordinate += xCoord
-        self.yCoordinate += yCoord
-
-    def setPosition(self, xCoord, yCoord):
-        self.xCoordinate = xCoord
-        self.yCoordinate = yCoord

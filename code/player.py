@@ -1,5 +1,5 @@
 class Player:
-    def __init__(self, defaultName : str):
+    def __init__(self, defaultName : str) -> None:
         self.name = defaultName
         self.highestKribbelPoints = 0
 

@@ -1,18 +1,15 @@
-from color import Color
 from dice import Dice
 from difficulty import Difficulty
-from task import Task
 from imageHelper import ImageHelper
 from player import Player
-
+from task import Task
 
 class Task_ColorXY_equal(Task):
 
-    def __init__(self, equalOrUnequal : bool):
+    def __init__(self, equalOrUnequal : bool) -> None:
         super().__init__(2)
         self.equal : bool = equalOrUnequal
         self.difficulty : Difficulty = Difficulty.HARD
-
 
     def isCompleted(self, dice : Dice, player : Player) -> bool:
         if (dice.getNumberOfColorInstances(self.colors[0]) == dice.getNumberOfColorInstances(self.colors[1])):
@@ -34,9 +31,7 @@ class Task_ColorXY_equal(Task):
             paths.append(ImageHelper.getTaskOperator("="))
         else:
             paths.append(ImageHelper.getTaskOperator("!="))
-            
         return paths
-
 
     def getIconDeviations(self) -> list[int]:
             return [0,100,50]

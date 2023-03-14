@@ -1,34 +1,30 @@
 from color import Color
-import pygame
-import os
-
 
 class ImageHelper:
     xCenter : int = 960
 
-    def getDieBackgroundColor(color : Color) -> pygame.Surface:
+    def getDieBackgroundColor(color : Color) -> str:
         return ImageHelper.getImage("dice", f"dieColor{color.name}")
 
-    def getDieNumberOverlay(value) -> pygame.Surface:
+    def getDieNumberOverlay(value) -> str:
         return ImageHelper.getImage("dice", f"dieValue{value}")
 
-    def getTaskColor(color : Color):
+    def getTaskColor(color : Color) -> str:
         return ImageHelper.getImage("tasks",f"Color{color.name}")
 
-    def getTaskNotAllowedColor(color : Color):
+    def getTaskNotAllowedColor(color : Color) -> str:
         if (color == Color.BLACK):
             return ImageHelper.getImage("tasks", "NotOverlayBLACK")
         else:
             return ImageHelper.getImage("tasks", "NotOverlay")
         
-    def getTaskNumber(number : int):
+    def getTaskNumber(number : int) -> str:
         return ImageHelper.getImage("tasks", f"Number{number}")
     
-    def getCompletionIndicator(isCompleted : bool):
-        #if(isCompleted):
+    def getCompletionIndicator(isCompleted : bool) -> str:
         return ImageHelper.getImage("labels", f"taskCompletedIndicator{isCompleted}")
 
-    def getTaskOperator(operator : str): #  * < > = != &
+    def getTaskOperator(operator : str) -> str:
         if (operator == "&"):
             return ImageHelper.getImage("tasks", "OperatorAnd")
         elif (operator == "="):
@@ -42,7 +38,7 @@ class ImageHelper:
         else:
             return ImageHelper.getImage("tasks", "error")
         
-    def getAnyColor(color : str): #  * < > = != &
+    def getAnyColor(color : str) -> str:
         if (color == "any"):
             return ImageHelper.getImage("tasks", "ColorAny")
         elif (color == "anyOther"):
@@ -58,29 +54,17 @@ class ImageHelper:
         else:
             return ImageHelper.getImage("tasks", "error")
 
-    def getTaskKribbel():
-        None
-
-    def getTaskBigNotAllowedOverlay():
+    def getTaskBigNotAllowedOverlay() -> str:
         return ImageHelper.getImage("tasks", "notLong")
     
-    def getTaskMinPrefix():
+    def getTaskMinPrefix() -> str:
         return ImageHelper.getImage("tasks", "min")
     
-    def getTaskTable():
+    def getTaskTable() -> str:
         return ImageHelper.getImage("labels", "taskTable")
     
-    def getUserIcon():
+    def getUserIcon() -> str:
         return ImageHelper.getImage("tasks", "IconUser")
-
-    def getEndPoints():
-        None
-
-    def getPoints(number):
-        None
-
-    def getNameLabel():
-        None
 
     def getButton(name : str) -> str:
         return ImageHelper.getImage("buttons", name)

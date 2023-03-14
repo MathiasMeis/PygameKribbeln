@@ -1,12 +1,9 @@
-# UI stuff, startbildschirm mit spieleranzahlauswahl, spielerbenennung, später ggfs modusauswahl
-import pygame
-from gameSetup import GameSetup
-from kribbeln import Kribbeln
-from gamestate import GameState
-import os
-from messageBoard import MessageBoard
-from imageHelper import ImageHelper
 from button import Button
+from gamestate import GameState
+from imageHelper import ImageHelper
+from kribbeln import Kribbeln
+from messageBoard import MessageBoard
+import pygame
 
 class StartingScreen:
     quitButton : Button = Button(1760,50,300,100," ",imageName="300x100Quit")
@@ -14,29 +11,25 @@ class StartingScreen:
     isShowQuitMessageBoard : bool = False
     editingEnabled : bool = False
 
-    newPlayerName : str = ""
-
     removeBaseX : int = 710
     editBaseX : int = 1160
     playerBaseX : int = 810
     BaseY : int = 100
     editingPlayerIndex : int = -1
     size = weight, height = 1920, 1080
-    background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), size)
+    background = pygame.transform.scale(pygame.image.load(ImageHelper.getBackground("startingScreen")), size)
 
-    pygame.font.init()
-    smallFont  = pygame.font.SysFont("comicsans", 30)
-
+    newPlayerName : str = ""
     startGameButton = Button(810, 850, 300, 100,"Start Game", imageName="300x100White")
-    editButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
-    denyEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
-    confirmsEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")#, imageName="playerEditing")
-    removePlayerButtons : list[Button] = []
+    editButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")
+    denyEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")
+    confirmsEditButton : Button = Button(playerBaseX+50,BaseY+(100*(Kribbeln.numberOfPlayers-100)),500,500, "xxx")
     addPlayerButton : Button = Button(playerBaseX+125,BaseY + 12+(100*Kribbeln.numberOfPlayers),50,50," ", imageName="addPlayer")
+    removePlayerButtons : list[Button] = []
     editPlayerButtons : list[Button] = []
     playerButtons : list[Button] = []
 
-    def init():
+    def init() -> None:
         StartingScreen.addPlayerButton : Button = Button(StartingScreen.playerBaseX+125,StartingScreen.BaseY + 12+(100*Kribbeln.numberOfPlayers),50,50," ", imageName="addPlayer")
         StartingScreen.removePlayerButtons = []
         StartingScreen.playerButtons = []
@@ -46,14 +39,10 @@ class StartingScreen:
             StartingScreen.editPlayerButtons.append(Button(StartingScreen.editBaseX, StartingScreen.BaseY+12+(100*index), 50, 50," ", imageName="playerEditStart"))
             StartingScreen.removePlayerButtons.append(Button(StartingScreen.removeBaseX,StartingScreen.BaseY+12+(100*index),50,50," ", imageName="removePlayer"))
 
-
-
-
-    def on_event(event): #TODO aufräumen, das geht auch anders
+    def on_event(event) -> None:
         mouse = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
            Kribbeln.currentState = GameState.FINISHED
-
         if(StartingScreen.isShowQuitMessageBoard):
             if StartingScreen.quitMessageBoard.checkForMouseLocationOnCloseButton(mouse[0],mouse[1]) and event.type == pygame.MOUSEBUTTONDOWN:
                 StartingScreen.isShowQuitMessageBoard = False
@@ -69,7 +58,6 @@ class StartingScreen:
                 StartingScreen.newPlayerName = ""
                 StartingScreen.editingPlayerIndex = -1
                 StartingScreen.editingEnabled = False
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     StartingScreen.newPlayerName =  StartingScreen.newPlayerName[:-1]
@@ -99,8 +87,7 @@ class StartingScreen:
                     StartingScreen.editingPlayerIndex = index
                     StartingScreen.editingEnabled = True
 
-
-    def drawElements(display):
+    def drawElements(display) -> None:
         StartingScreen.quitButton.draw(display)
         StartingScreen.startGameButton.draw(display)
         for i in range(len(StartingScreen.playerButtons)):
@@ -120,8 +107,6 @@ class StartingScreen:
             if Kribbeln.numberOfPlayers < 7:
                 StartingScreen.addPlayerButton.draw(display)
 
-
-
-    def on_loop(display):
+    def on_loop(display) -> None:
         display.blit(StartingScreen.background, (0,0))
         StartingScreen.drawElements(display)

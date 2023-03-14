@@ -1,14 +1,14 @@
 from color import Color
 from dice import Dice
 from difficulty import Difficulty
-from task import Task
 from imageHelper import ImageHelper
 from player import Player
+from task import Task
 
 
-class Task_anyColor(Task): #  mal beliebige Farbe
+class Task_anyColor(Task):
 
-    def __init__(self ,numberOfInstances : int, allowed : bool):
+    def __init__(self ,numberOfInstances : int, allowed : bool) -> None:
         super().__init__(0)
         self.allowedToComplete = allowed
         self.numberOfInstances = numberOfInstances
@@ -58,10 +58,7 @@ class Task_anyColor(Task): #  mal beliebige Farbe
         if(self.allowedToComplete):
             return [0,50,100]
         else:
-            return [0,50,100,-25]
+            return [0,50,100,0]
         
     def getIconWidth(self) -> int:
-            if self.allowedToComplete:
                 return 150
-            else:
-                return 200

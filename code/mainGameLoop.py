@@ -1,20 +1,16 @@
-import pygame
-from pygame.locals import *
-import os
-import os.path
+from endScreen import EndScreen
 from gamestate import GameState
 from kribbeln import Kribbeln
-from endScreen import EndScreen
-from startingScreen import StartingScreen
 from mainScreen import MainScreen
+from startingScreen import StartingScreen
+from pygame.locals import *
+import pygame
 
 class mainGameLoop:
     size = weight, height = 1920, 1080
     def __init__(self):
         self._running = True
         self.display = None
-        #self.background = pygame.transform.scale(pygame.image.load(os.path.join("assets", "background.png")), self.size)
-
  
     def on_init():
         pygame.init()
@@ -32,7 +28,6 @@ class mainGameLoop:
 
     def on_cleanup():
         pygame.quit()
-
     
     def on_execute():
         if mainGameLoop.on_init() == False:

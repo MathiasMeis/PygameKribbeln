@@ -1,8 +1,7 @@
 from dice import Dice
-from scoreBoard import ScoreBoard
 from gamestate import GameState
 from player import Player
-
+from scoreBoard import ScoreBoard
 
 class Kribbeln:
     playingDice : Dice = Dice()
@@ -14,8 +13,7 @@ class Kribbeln:
     currentState : GameState = GameState.STARTING
     remainingRorolls : int = 2
 
-
-    def lowerRerollCounter():
+    def lowerRerollCounter() -> None:
         Kribbeln.remainingRorolls -= 1
 
     def getRemainigRerolls() -> int:
@@ -28,27 +26,23 @@ class Kribbeln:
         Kribbeln.scoreBoard = ScoreBoard(Kribbeln.players)
         Kribbeln.playingDice.reroll()
 
-
-
-    def addPlayer():
+    def addPlayer() -> None:
         Kribbeln.numberOfPlayers += 1
         Kribbeln.players.append(Player(f"Player {Kribbeln.numberOfPlayers}"))
 
-    def removePlayer(index):
+    def removePlayer(index) -> None:
         Kribbeln.numberOfPlayers -= 1
         Kribbeln.players.remove(Kribbeln.players[index])
 
-    def nextRound():
+    def nextRound() -> None:
         Kribbeln.scoreBoard.updateResultingPoints(Kribbeln.currentRound)
         Kribbeln.scoreBoard.updateScore(Kribbeln.currentRound)
         if (Kribbeln.currentRound < len(Kribbeln.scoreBoard.tasks) - 1):
             Kribbeln.currentRound += 1
         else:
             Kribbeln.currentState = GameState.ENDING
-        # end of game
 
-
-    def nextPlayer():
+    def nextPlayer() -> None:
         Kribbeln.setPoints()
         if (Kribbeln.currentPlayerIndex<Kribbeln.numberOfPlayers -1):
             Kribbeln.currentPlayerIndex += 1
@@ -56,13 +50,11 @@ class Kribbeln:
             Kribbeln.currentPlayerIndex = 0
             Kribbeln.nextRound()
         Kribbeln.remainingRorolls = 2 
-        Kribbeln.playingDice.enableAllDice()
+        Kribbeln.playingDice.enableAll()
         Kribbeln.playingDice.reroll()
 
-    def setPoints():
+    def setPoints() -> None:
         Kribbeln.scoreBoard.setPoints(Kribbeln.playingDice, Kribbeln.currentPlayerIndex, Kribbeln.currentRound)
-        print(Kribbeln.scoreBoard.points)    
-
 
     def getResultingPoints() -> int:
         if(Kribbeln.scoreBoard.tasks[Kribbeln.currentRound].isCompleted(Kribbeln.playingDice, Kribbeln.players[Kribbeln.currentPlayerIndex])):

@@ -17,6 +17,7 @@ WIP(Mathias):
 
 
 DONE:
+- Winner label im endscreen
 - TaskHelper.getDefaultTasks umändern, dass direkt 2 elemente übergeben werden, sodass tasks nicht doppelt vorkommen können
 - tasten für interaktionen
 - Task.getInfo() auf zu lange teilstings überprüfen, es einzelne elemente sind zu lang
